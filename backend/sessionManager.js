@@ -4,7 +4,7 @@ import path, { sep } from 'path';
 import sanitize from 'sanitize-filename';
 import { blocklivePath, lastIdPath, saveMapToFolder, saveMapToFolderAsync, scratchprojectsPath } from './filesave.js';
 import { Blob } from 'node:buffer'
-import { countRecent, countRecentRealtime, countRecentShared } from './recentUsers.js';
+import { countPopup, countRecent, countRecentRealtime, countRecentShared, countUniquePopup } from './recentUsers.js';
 import { getAuthStats } from './scratch-auth.js';
 
 const OFFLOAD_TIMEOUT_MILLIS = 45 * 1000 // you get two minutes before the project offloads
@@ -711,6 +711,11 @@ export default class SessionManager {
             active24Hr:0,
             active1week:0,
             active30d:0,
+            popup24hr:0,
+            popup1week:0,
+            popup1month:0,
+            popupUnique24hr:0,
+            popupUnique1week:0,
             totalActiveProjects: 0,
             totalProjectsMoreThan1Editor: 0,
             usersActiveCount: 0,
@@ -764,6 +769,11 @@ export default class SessionManager {
         stats.active24Hr = countRecent(1);
         stats.active1week = countRecent(7);
         stats.active30d = countRecent(30);
+        stats.popup24hr = countPopup(1);
+        stats.popup1week = countPopup(7);
+        stats.popup1month = countPopup(30);
+        stats.popupUnique24hr = countUniquePopup(1)
+        stats.popupUnique1week = countUniquePopup(7)
 
         stats.auth = getAuthStats();
         return stats;

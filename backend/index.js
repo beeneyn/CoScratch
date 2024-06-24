@@ -51,7 +51,7 @@ import { blocklivePath, lastIdPath, loadMapFromFolder, saveMapToFolder, saveMapT
 import { Filter } from './profanity-filter.js';
 import { postText } from './discord-webhook.js';
 import { installCleaningJob } from './removeOldProjects.js';
-import { addRecent, countRecentShared, saveRecent } from './recentUsers.js';
+import { addRecent, countRecentShared, recordPopup, saveRecent } from './recentUsers.js';
 import { admin, adminUser } from './secrets/secrets.js';
 import {setPaths, authenticate, freePassesPath, freePasses} from './scratch-auth.js';
 
@@ -349,6 +349,8 @@ app.get('/projectJSON/:blId',(req,res)=>{
      res.send({json,version});
      return;
 })
+
+app.use('/html',express.static('static'))
 // app.get('/whereTo/:username/:scratchId',(req,res)=>{
 //      if (req.params.scratchId in sessionManager.scratchprojects) {
 //           let project = sessionManager.getScratchToBLProject(res.params.scratchId)
@@ -496,6 +498,7 @@ app.delete('/friends/:user/:friend',(req,res)=>{
 
 })
 app.get('/friends/:user',(req,res)=>{
+     recordPopup(req.params.user)
      if(!authenticate(req.params.user,req.headers.authorization)) {res.send({noauth:true}); return;}
 
      res.send(userManager.getUser(req.params.user)?.friends)

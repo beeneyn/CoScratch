@@ -5,7 +5,11 @@ import cron from 'node-cron'
 const recentPath = 'storage/recent.json'
 
 //load from file
-let {recent,recentRealtime,recentShared} = fs.existsSync(recentPath) ? JSON.parse(fs.readFileSync(recentPath)) : {recent:{},recentRealtime:{},recentShared:{}}
+let {recent,recentRealtime,recentShared,popup} = fs.existsSync(recentPath) ? JSON.parse(fs.readFileSync(recentPath)) : {recent:{},recentRealtime:{},recentShared:{},popup:[]}
+if(!recent) {recent = {}}
+if(!recentRealtime) {recentRealtime = {}}
+if(!recentShared) {recentShared = {}}
+if(!popup) {popup = []}
 
 const CRON_EXPRESSION = '0 1 * * *'; // every night at 1am
 cron.schedule(CRON_EXPRESSION, async () => {
@@ -17,10 +21,27 @@ cron.schedule(CRON_EXPRESSION, async () => {
 
 setInterval(saveRecent,1000)
 
-
 // save to file
 export async function saveRecent() {
-    await fsp.writeFile(recentPath,JSON.stringify({recent,recentRealtime,recentShared}))
+    await fsp.writeFile(recentPath,JSON.stringify({recent,recentRealtime,recentShared,popup}))
+}
+
+export function recordPopup(username) {
+    username = username?.toLowerCase?.()
+    let toPush = {u:username,t:Date.now()};
+    popup.push(toPush);
+}
+export function countPopup(days) {
+    let now = Date.now();
+    let millis = days * 1000 * 60 * 60 * 24;
+    let count = popup.filter(record=>record.t>now-millis).length;
+    return count
+}
+export function countUniquePopup(days) {
+    let now = Date.now();
+    let millis = days * 1000 * 60 * 60 * 24;
+    let count = new Set(popup.filter(record=>record.t>now-millis).map(record=>record.u)).size;
+    return count
 }
 
 export function addRecent(username,realtime,shared) {
@@ -46,6 +67,8 @@ function trimRecent() {
 
     let namesToDeleteShared = Object.entries(recentShared).filter(entry=>(Date.now()-entry[1]>1000*60*60*24*DAYS)).map(entry=>entry[0]);
     namesToDeleteShared.forEach(name=>{delete recentShared[name]})
+
+    popup = popup.filter(entry=>(Date.now()-entry.t)<1000*60*60*24*DAYS)
 }
 
 export function countRecentShared(days) {

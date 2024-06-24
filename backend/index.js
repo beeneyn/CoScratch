@@ -126,7 +126,7 @@ async function finalSave() {
           console.log('final saving...')
           fs.writeFileSync(lastIdPath,(sessionManager.lastId).toString());
           fs.writeFileSync(freePassesPath,JSON.stringify(freePasses))
-          sessionManager.finalSaveAllProjects(); // now they automatically offload
+          await sessionManager.finalSaveAllProjects(); // now they automatically offload
           saveMapToFolder(userManager.users,usersPath);
           await saveRecent();
           process.exit()

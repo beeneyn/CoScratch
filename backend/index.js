@@ -107,10 +107,12 @@ async function saveAsync() {
      await sleep(10); // in case there is an error that nans lastid out
      await fsp.writeFile(lastIdPath,(sessionManager.lastId).toString());
      await fsp.writeFile(freePassesPath,JSON.stringify(freePasses))
-     console.log('writing blocklives')
-     await saveMapToFolderAsync(sessionManager.blocklive,blocklivePath,true);
-     console.log('DONE writing blocklives')
-     await saveMapToFolderAsync(userManager.users,usersPath);
+
+     // DONT SAVE BLOCKLIVE PROJECTS BECAUSE ITS TOO TAXING AND IT HAPPENS ANYWAYS ON OFFLOAD
+     // console.log('writing blocklives')
+     // await saveMapToFolderAsync(sessionManager.blocklive,blocklivePath,true);
+     // console.log('DONE writing blocklives')
+     // await saveMapToFolderAsync(userManager.users,usersPath);
      await saveRecent();
 }
 let isFinalSaving = false;

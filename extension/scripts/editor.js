@@ -2,8 +2,11 @@ console.log('CollabLive Editor Inject Running...')
 apiUrl = 'https://spore.us.to:4000'
 // apiUrl = 'http://localhost:4000'
 
+
 // get exId
 const exId = document.querySelector(".blocklive-ext").dataset.exId
+
+chrome.runtime.sendMessage(exId,{meta:'getUsernamePlus'},(userData)=>{apiUrl = userData.apiUrl})
 
 //////////// TRAP UTILS ///////////
 

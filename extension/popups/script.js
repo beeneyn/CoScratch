@@ -91,17 +91,22 @@ setTimeout(()=>{chrome.runtime.sendMessage({meta:"getUsernamePlus"},setSignedin)
     document.querySelector('#submit').onclick = ()=>{addFriend(document.querySelector('#searchh').value)}
 
     if(!info.currentBlToken && !info.verifyBypass) {
-        document.querySelector('#friends').innerHTML = `<div style="color:red; text-align:center; font-size: medium; padding:10px; justify-self:center;"><span style="background:white;">You're not verified with blocklive. <br> <br> To verify, ensure your account can comment and open scratch in a new tab for 10 seconds. <br><br> If you're still not verified, contact @ilhp10 or @rgantzos </span></div>`
+        showNoAuthMessage()
     } else {
         // populate with current friends
         fetch(`${apiUrl}/friends/${username}`,{headers:{authorization:token}})
             .then((res)=>{document.querySelector('#friends').innerHTML = '';return res})
-            .then(res=>res.json().then(list=>list.forEach(addFriendGUI)))
-            .catch(()=>{document.querySelector('#friends').innerHTML = '<span style="color:red;">Error: Request Failed :(<span>'})
+            .then(res=>res.json().then(list=>{
+                if(list.noauth) {showNoAuthMessage()}
+                else {list.forEach(addFriendGUI)}
+            }))
+            .catch((e)=>{document.querySelector('#friends').innerHTML = '<span style="color:red;">Error: Request Failed :(<span>'})
     }
 });
 
-
+function showNoAuthMessage() {
+    document.querySelector('#friends').innerHTML = `<div style="color:red; text-align:center; font-size: medium; padding:10px; justify-self:center;"><span style="background:white;">You're not verified with blocklive. <br> <br> To verify, open scratch in a new tab and wait for 10 seconds. <br><br> If you're still not verified, contact @ilhp10 or @rgantzos </span></div>`
+}
 
 document.getElementById('discord').onclick = ()=>{
     chrome.tabs.create({url: `https:\/\/discord.gg/9ZQQhvAvqp`});

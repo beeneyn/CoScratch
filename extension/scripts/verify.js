@@ -1,7 +1,7 @@
 function askVerify() {
   chrome.runtime.sendMessage({ meta: 'verify?' }, async (response) => {
-    let ok = await commentTempCode(response.code, response.project)
-    chrome.runtime.sendMessage({ meta: 'commented', ok })
+    let ok = await setCloudTempCode(response.code, response.project)
+    chrome.runtime.sendMessage({ meta: 'setCloud', ok })
   })
 }
 askVerify()
@@ -15,25 +15,32 @@ async function setCloudVar(value, AUTH_PROJECTID) {
     connection.close();
     return false;
   };
-  connection.onopen = async () => {
-    connection.send(
-      JSON.stringify({ method: "handshake", project_id: AUTH_PROJECTID, user }) + "\n");
-    await new Promise((r) => setTimeout(r, 100));
-    connection.send(
-      JSON.stringify({
-        value: value.toString(),
-        name: "☁ verify",
-        method: "set",
-        project_id: AUTH_PROJECTID,
-        user,
-      }) + "\n"
-    );
-    connection.close();
-    return true;
-  };
+  let setAndClose = new Promise((res,err) => {
+    try{
+    connection.onopen = async () => {
+      connection.send(
+        JSON.stringify({ method: "handshake", project_id: AUTH_PROJECTID, user }) + "\n");
+      await new Promise((r) => setTimeout(r, 100));
+      connection.send(
+        JSON.stringify({
+          value: value.toString(),
+          name: "☁ verify",
+          method: "set",
+          project_id: AUTH_PROJECTID,
+          user,
+        }) + "\n"
+      );
+      connection.close();
+      res();
+      return true;
+    };
+  } catch(e) {err(e)}
+  })
+  return await setAndClose
 }
 
-async function commentTempCode(code, projectInfo) {
+
+async function setCloudTempCode(code, projectInfo) {
   let response = await setCloudVar(code, projectInfo);
   return response;
 }

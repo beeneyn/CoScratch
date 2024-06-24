@@ -4,6 +4,7 @@ export class WordCompressor {
     collapseMap = {}
     removeWords = []
     okWords = {}
+    allChars='abcdefghijklmnopqrstuvwxyz '
 
     addOkWord(word) {
         this.okWords[word] = true
@@ -24,6 +25,15 @@ export class WordCompressor {
         });
     }
 
+    setAllChars(allChars) {
+        this.allChars=allChars;
+    }
+
+    getOnlyAllChars(phrase) {
+        let regex = new RegExp(`[^${this.allChars}]`,'g')
+        return phrase.replace(regex,'')
+    }
+
     addRemove(bit) {
         this.removeWords.push(bit)
     }
@@ -34,6 +44,7 @@ export class WordCompressor {
     }
 
     compress(word) {
+
         // this.removeWords.forEach(bit => { word = word.split(bit).join('') })
 
         word = this.shear(word)
@@ -60,7 +71,11 @@ export class WordCompressor {
                 i += this.collapseMap[char].length - 1
             }
         }
+        word = this.getOnlyAllChars(word) // remove non letters and numbers
+
         word = this.singleChars(word)
+
+
 
         for (let i = 0; i < word.length - 1; i += 1) {
             let char = '' + word[i] + word[i + 1]
@@ -191,10 +206,13 @@ export class Filter {
         c.addMapping(['k'], 'c')
         c.addMapping(['$'], 's')
         c.addMapping(['3'], 'e')
+        c.addMapping(['5'], 's')
         c.addMapping(['ch'], 'x')
         c.addMapping(['1', 'l'], 'i')
         // c.addMapping(['e'],'i')
         c.addMapping(['cc'], 'ch')
+
+        this.compressor.setAllChars('abcdefghijklmnopqrstuvwxyz123456789 ')
 
         let lines = new Lines('./filterwords/badwords.txt')
         let line;

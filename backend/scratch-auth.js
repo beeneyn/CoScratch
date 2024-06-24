@@ -10,7 +10,7 @@ const AUTH_PROJECTID = 854593681;
 function logAuth(username, success, word) {
     if (!username) { return; }
     if (success) {
-        console.error(`✅ Successfully ${word}ed user ${username}`)
+        // console.error(`✅ Successfully ${word}ed user ${username}`)
         if (username in failedAuthLog) {
             delete failedAuthLog[username]
         }
@@ -67,8 +67,6 @@ export function setPaths(app, userManagerr, sessionManagerr) {
                 res.send({ err: 'client code not found', clientCode });
                 return;
             }
-
-            await sleep(CLOUD_WAIT); // Cloudvars always take more time
 
             let cloud = await getVerificationCloud(tempCode)
             if (!cloud || cloud?.err) {

@@ -64,8 +64,8 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
                 sendResponse({code,project})
             } catch (e) {console.error(e); endVerifying(false)}
         }
-    } else if (request.meta == 'commented') {
-        console.log('commented')
+    } else if (request.meta == 'setCloud') {
+        console.log('setCloud')
         try{
             let tokenResponse =  await (await fetch(`${apiUrl}/verify/userToken?code=${clientCode}`,{headers:{uname}})).json()
         
@@ -110,7 +110,7 @@ chrome.runtime.onMessageExternal.addListener((request, sender, sendResponse) => 
 //     let code = verifyResponse.code
 //     let project = verifyResponse.project
 
-//     await commentTempCode(code,project);
+//     await setCloudTempCode(code,project);
 
 //     let tokenResponse =  await (await fetch(`${apiUrl}/verify/userToken?code=${clientCode}`)).json()
     

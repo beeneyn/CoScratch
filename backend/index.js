@@ -104,6 +104,7 @@ async function saveAsync() {
      if(isFinalSaving) {return} // dont final save twice
 
      console.log('saving now...')
+     await sleep(10); // in case there is an error that nans lastid out
      await fsp.writeFile(lastIdPath,(sessionManager.lastId).toString());
      await fsp.writeFile(freePassesPath,JSON.stringify(freePasses))
      console.log('writing blocklives')
@@ -220,7 +221,8 @@ let messageHandlers = {
                let loggingMsg = '🔴 FILTERED CHAT: ' + '"' + text + '" [' + sender + '->' + sentTo.join(',') + ' | scratchid: ' + project.scratchId + ']'
                console.error(loggingMsg)
                postText(loggingMsg)
-          return;
+               data.msg.msg.text = '*'.repeat(text.length)
+          // return;
           }
 
           if(banned?.includes?.(sender)) {return;}
@@ -395,7 +397,7 @@ function buildMagicList(list) {
      return output
 }
 
-app.get('/chat/:id/',(req,res)=>{
+app.get('/chat/:id',(req,res)=>{
      if(!fullAuthenticate(req.headers.uname,req.headers.authorization,req.params.id)) {res.send({noauth:true}); return;}
 
 

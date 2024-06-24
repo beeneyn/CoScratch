@@ -1,9 +1,9 @@
 /// DECS
-let uname = "*"
-let upk = undefined
+let uname = "*";
+let upk = undefined;
 
-let apiUrl = 'https://spore.us.to:4000'
-// let apiUrl = 'http://localhost:4000'
+let apiUrl = 'https://spore.us.to:4000';
+// let apiUrl = 'http://localhost:4000';
 
 chrome.runtime.onInstalled.addListener((details)=>{
   if(details.reason === chrome.runtime.OnInstalledReason.INSTALL) {
@@ -18,9 +18,9 @@ chrome.runtime.onInstalled.addListener((details)=>{
 const BLOCKLIVE={}
 async function backgroundScript() {
 
-importScripts('background/socket.io.js')
-importScripts('background/blockliveProject.js')
-importScripts('background/auth.js')
+importScripts('background/socket.io.js');
+importScripts('background/blockliveProject.js');
+importScripts('background/auth.js');
 
 // user info
 // let username = 'ilhp10'

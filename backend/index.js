@@ -17,7 +17,7 @@ import http from 'http'
 
 let server;
 
-if(os.platform()=='darwin') {
+if(os.platform()=='darwin') { // || os.platform()=='win32') { // I use windows...
      server = http.createServer(app);
 } else {  
      let homedir = '/home/opc'
@@ -293,7 +293,7 @@ app.get('/blId/:scratchId/:uname',(req,res)=>{
           return;
      }
      // let hasAccess = fullAuthenticate(req.params.uname,req.headers.authorization,blId)
-     let hasAccess = project.isSharedWithCaseless(req.params.uname) // todo switch out
+     let hasAccess = project.isSharedWithCaseless(req.params.uname)
 
      res.send(hasAccess  ? blId : null);
 })

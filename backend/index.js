@@ -117,18 +117,23 @@ async function saveAsync() {
 }
 let isFinalSaving = false;
 async function finalSave() {
-     if(isFinalSaving) {return} // dont final save twice
-     console.log('sending message "' + restartMessage + '"')
-     sessionManager.broadcastMessageToAllActiveProjects(restartMessage);
-     await sleep(1000 * 2);
-     isFinalSaving = true
-     console.log('final saving...')
-     fs.writeFileSync(lastIdPath,(sessionManager.lastId).toString());
-     fs.writeFileSync(freePassesPath,JSON.stringify(freePasses))
-     sessionManager.finalSaveAllProjects(); // now they automatically offload
-     saveMapToFolder(userManager.users,usersPath);
-     await saveRecent();
-     process.exit()
+     try{
+          if(isFinalSaving) {return} // dont final save twice
+          console.log('sending message "' + restartMessage + '"')
+          sessionManager.broadcastMessageToAllActiveProjects(restartMessage);
+          await sleep(1000 * 2);
+          isFinalSaving = true
+          console.log('final saving...')
+          fs.writeFileSync(lastIdPath,(sessionManager.lastId).toString());
+          fs.writeFileSync(freePassesPath,JSON.stringify(freePasses))
+          sessionManager.finalSaveAllProjects(); // now they automatically offload
+          saveMapToFolder(userManager.users,usersPath);
+          await saveRecent();
+          process.exit()
+     } catch (e) {
+          await sleep(1000 * 10); // wait ten seconds before trying to quit again
+          isFinalSaving = false;
+     }
 }
 saveMapToFolder(sessionManager.blocklive,blocklivePath)
 

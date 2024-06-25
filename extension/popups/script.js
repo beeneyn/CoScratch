@@ -89,7 +89,9 @@ setTimeout(()=>{chrome.runtime.sendMessage({meta:"getUsernamePlus"},setSignedin)
         }
     });
     document.querySelector('#submit').onclick = ()=>{addFriend(document.querySelector('#searchh').value)}
-
+    let unverified = document.getElementById('unverified');
+    if(info.currentBlToken) { unverified.style.display = 'none'}
+    else {unverified.style.display = 'inherit'}
     if(!info.currentBlToken && !info.verifyBypass) {
         showNoAuthMessage()
     } else {

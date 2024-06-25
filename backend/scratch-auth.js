@@ -11,7 +11,7 @@ export const successAuthLog = {};
 function logAuth(username, success, word, info) {
     if (!username) { return; }
     if (success) {
-        // console.error(`✅ Successfully ${word}ed user ${username}`)
+        if(word!='authenticate'){console.log(`✅ Successfully ${word}ed user ${username}`)}
         if (username in failedAuthLog) {
             delete failedAuthLog[username]
             successAuthLog[username] = true;

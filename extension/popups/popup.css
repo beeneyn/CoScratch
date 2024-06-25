@@ -271,3 +271,12 @@ br{
       transform: rotateX(calc(360deg));
       /* flex-flow:row-reverse; */
   }
+
+  .requestError{
+    /* text-align: center; */
+    align-content: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding:10px;
+  }

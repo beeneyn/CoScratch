@@ -100,7 +100,7 @@ setTimeout(()=>{chrome.runtime.sendMessage({meta:"getUsernamePlus"},setSignedin)
                 if(list.noauth) {showNoAuthMessage()}
                 else {list.forEach(addFriendGUI)}
             }))
-            .catch((e)=>{document.querySelector('#friends').innerHTML = '<span style="color:red;">Error: Request Failed :(<span>'})
+            .catch((e)=>{document.querySelector('#friends').innerHTML = `<span class="requestError" style="color:red;"><span>Request Error :( <br><br>${e.stack.replace(new RegExp(`chrome-extension://${chrome.runtime.id}/`,'g'),'')}</span><span>`})
     }
 });
 

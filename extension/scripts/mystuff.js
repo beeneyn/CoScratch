@@ -119,16 +119,24 @@ function getbox(blId,title,scratchId,lastModified,lastModBy,projectExists,online
 
 async function generateActiveUsersPanel(active) {
   if(active.length>0) {
+    active.forEach(username=>getUserInfo(username).then(info=>document.querySelectorAll(`.${username}`).forEach(elem=>elem.style.backgroundImage=`url(${info.pic})`)))
     return `
       <div class="activeContainer">
-        ${(await Promise.all(active.map(async username=>(await getUserInfo(username))))).map(userInfo=>`
-          
-        <div class="onlineBubble" style="background-image:url(${userInfo.pic}); --bubbleUsername:'${userInfo.username}'"></div>`
 
-          ).join('\n')}
+        ${
+      active.map(username=>
+        `<div class="onlineBubble ${username}" style="background-color: white; --bubbleUsername:'${username}'"></div>`
+      )
+        .join('\n')}
+     
+          
+       
+
+        
             
       </div>
-    `
+    `  
+     
   } else {
     return ""
   }
@@ -151,6 +159,9 @@ let pageCss = `
       background:black;
       width:100px;
       height:30px;
+      padding-top:0;
+      padding-bottom:0;
+      translate: -25% 0;
     }
 
 .onlineBubble:hover::after {

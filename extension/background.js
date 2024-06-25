@@ -364,7 +364,7 @@ chrome.runtime.onMessageExternal.addListener(
       // {meta:'projectSaved',blId,scratchId,version:blVersion}
       fetch(`${apiUrl}/projectSavedJSON/${request.blId}/${request.version}`,{method:'POST',body:request.json,headers:{'Content-Type': 'application/json',authorization:currentBlToken,uname}})
     } else if(request.meta == 'myStuff') {
-      sendResponse(await(await fetch(`${apiUrl}/userProjectsScratch/${await refreshUsername()}`,{headers:{authorization:currentBlToken}})).json())
+      sendResponse(await(await fetch(`${apiUrl}/userProjectsScratch/${await makeSureUsernameExists()}`,{headers:{authorization:currentBlToken}})).json())
     } else if(request.meta == 'create') {
       // sendResponse(await(await fetch(`${apiUrl}/newProject/${request.scratchId}/${await refreshUsername()}?title=${encodeURIComponent(request.title)}`)).json())
       sendResponse(await(await fetch(`${apiUrl}/newProject/${request.scratchId}/${await refreshUsername()}?title=${encodeURIComponent(request.title)}`,

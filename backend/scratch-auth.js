@@ -4,7 +4,7 @@ import { authProjects } from "./secrets/secrets.js";
 import fs from 'fs'
 export const freePassesPath = 'storage/freePasses.json'
 export const failedAuthLog = {}
-export const successAuthLog = {};
+export const secondTimeSuccessAuthLog = {};
 
 
 
@@ -14,7 +14,7 @@ function logAuth(username, success, word, info) {
         if(word!='authenticate'){console.log(`✅ Successfully ${word}ed user ${username}`)}
         if (username in failedAuthLog) {
             delete failedAuthLog[username]
-            successAuthLog[username] = true;
+            secondTimeSuccessAuthLog[username] = true;
         }
     } else {
         failedAuthLog[username] = (failedAuthLog[username] instanceof Array) ? (failedAuthLog[username].length > 10 ? failedAuthLog[username] : [...failedAuthLog[username] ,info]) : [info]; 
@@ -32,7 +32,7 @@ function sleep(millis) {
 
 let idIndex = 0;
 export function getAuthStats() {
-    return { idIndex, info: getAuthProjectId(), failed: failedAuthLog, successCount:Object.keys(successAuthLog).length }
+    return { idIndex, info: getAuthProjectId(), failed: failedAuthLog, successCount:Object.keys(secondTimeSuccessAuthLog).length }
 }
 
 function generateAuthCode() {

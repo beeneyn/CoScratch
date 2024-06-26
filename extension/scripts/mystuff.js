@@ -368,7 +368,6 @@ chrome.runtime.sendMessage(exId, { meta: 'getUsernamePlus' }, async (userData) =
 
     let newVerified = false;
     addStartVerificationCallback(() => {
-      defaultAddHideBlockliveButton()
       document.querySelector('#verifying')?.remove()
       document.querySelector('#unverified')?.remove()
       document.querySelector('.box-head').insertAdjacentHTML('afterend', `<div class="blBanner" id="verifying" style="background:#ea47ff; color:white;"><img height=15 src="https://upload.wikimedia.org/wikipedia/commons/a/ad/YouTube_loading_symbol_3_%28transparent%29.gif"/> Blocklive is verifying your account ...<div>`)
@@ -384,6 +383,7 @@ chrome.runtime.sendMessage(exId, { meta: 'getUsernamePlus' }, async (userData) =
         removeHideBlockliveButton()
         setTimeout(() => { document.querySelector('#blSuccess').remove() }, 1000 * 2)
       } else {
+        defaultAddHideBlockliveButton()
         document.querySelector('.box-head').insertAdjacentHTML('afterend', `<div class="blBanner" id="unverified" style="background:red; color:white;"><span id="bigx" style="display:none; padding:3px; border-radius:50%; background:lightpink; color:maroon; cursor:pointer;" onclick="document.querySelector('#unverified').remove()">&nbspx&nbsp</span>⚠️ Blocklive could not verify your account. Reload the tab in a few seconds. If this issue continues, contact @ilhp10 or @rgantzos <span style="text-decoration:underline; cursor:pointer; color:blue;" onclick="chrome.runtime.sendMessage(exId,{meta:'getVerifyError'},err=>prompt('This error occured during client verification. Comment it on @ilhp10 or @rgantzos profile',err))">See Error Msg</span>`)
       }
     })
@@ -391,11 +391,15 @@ chrome.runtime.sendMessage(exId, { meta: 'getUsernamePlus' }, async (userData) =
 
 
 
-
     chrome.runtime.sendMessage(exId, { meta: 'verifying' }, (verifying) => {
-      if (verifying) {
+      console.log('vf',verifying)
+      console.log('verifying',verifying)
+      if (verifying=='nocon'){
+        // defaultAddHideBlockliveButton()
+        document.querySelector('.box-head').insertAdjacentHTML('afterend', `<div class="blBanner" id="unverified" style="background:red; color:white;">⚠️ Cant connect to blocklive servers at blocklivecollab.com <a href="https://status.uptime-monitor.io/6499c89d4bfb79bb5f20ac4d" target="_blank">Check Uptime</a> or <a onclick="(()=>{chrome.runtime.sendMessage(exId,{meta:'dontShowVerifyError',val:false}); addHideBlockliveButton(false);})()">Dont show this message again</a><div>`)
+      }
+      else if (verifying) {
         defaultAddHideBlockliveButton()
-
         document.querySelector('#verifying')?.remove()
         document.querySelector('.box-head').insertAdjacentHTML('afterend', `<div class="blBanner" id="verifying" style="background:#ea47ff; color:white;"><img height=15 src="https://upload.wikimedia.org/wikipedia/commons/a/ad/YouTube_loading_symbol_3_%28transparent%29.gif"/> Blocklive is verifying your account ...<div>`)
       } else {

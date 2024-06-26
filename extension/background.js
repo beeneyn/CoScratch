@@ -3,6 +3,7 @@ let uname = "*";
 let upk = undefined;
 
 let apiUrl = 'https://blocklivecollab.com/api';
+// let apiUrl = 'https://spore.us.to/api';
 // let apiUrl = 'https://spore.us.to:4000';
 // let apiUrl = 'http://localhost:4000';
 
@@ -110,7 +111,11 @@ function playChange(blId,msg,optPort) {
 
 //////// INIT SOCKET CONNECTION ///////
 // ['websocket', 'xhr-polling', 'polling', 'htmlfile', 'flashsocket']
-const socket = io.connect(apiUrl,{jsonp:false,transports:['websocket', 'xhr-polling', 'polling', 'htmlfile', 'flashsocket']})
+const URLApiUrl = new URL(apiUrl);
+const URLApiDomain = URLApiUrl.origin
+const URLApiPath = [''].concat(URLApiUrl.pathname.split('/').filter(Boolean)).join('/')
+const socket = io.connect(URLApiDomain,{path: `${URLApiPath}/socket.io/`,jsonp:false,transports:['websocket', 'xhr-polling', 'polling', 'htmlfile', 'flashsocket']})
+BLOCKLIVE.socket = socket
 // const socket = io.connect(apiUrl,{jsonp:false,transports:['websocket']})
 // socket.on("connect_error", () => { socket.io.opts.transports = ["websocket"];});
 console.log('connecting')

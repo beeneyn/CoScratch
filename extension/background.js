@@ -2,7 +2,8 @@
 let uname = "*";
 let upk = undefined;
 
-let apiUrl = 'https://spore.us.to:4000';
+let apiUrl = 'https://blocklivecollab.com/api';
+// let apiUrl = 'https://spore.us.to:4000';
 // let apiUrl = 'http://localhost:4000';
 
 chrome.runtime.onInstalled.addListener((details)=>{

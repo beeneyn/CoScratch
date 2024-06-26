@@ -209,7 +209,7 @@ export class Filter {
         // c.addMapping(['5'], 's')
         c.addMapping(['ch'], 'x')
         c.addMapping(['1', 'l'], 'i')
-        // c.addMapping(['e'],'i')
+        c.addMapping(['e'],'i') // experimental mapping
         // c.addMapping(['cc'], 'ch')
 
         this.compressor.setAllChars('abcdefghijklmnopqrstuvwxyz123456789 ')
@@ -258,5 +258,8 @@ export class Filter {
     isVulgar(string) {
         string = this.compressor.removeOkWords(string)
         return this.tester.containsWord(this.compressor.compress(string.toLowerCase())) || this.tester.containsWord(this.compressor.shear(string.toLowerCase() + " ")) || this.hasSpaceWord(string.toLowerCase())
+    }
+    getCensored(string) {
+        return string.split(' ').map(word=>(word.toLowerCase() in this.compressor.okWords) ? word : '*'.repeat(word.length)).join(' ')
     }
 }

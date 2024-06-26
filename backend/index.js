@@ -602,6 +602,7 @@ app.get('/verify/bypass',(req,res)=>{
 function fullAuthenticate(username,token,blId) {
      if(bypassAuth) {return true} // remove once the new version has passed
      // and remove line 448 "sessionManager.canUserAccessProject"
+     if(!username) { console.error(`undefined username attempted to authenticate on project ${blId} with token ${token}`); username = '*'}
      let userAuth = authenticate(username,token)
      let authAns = userAuth && sessionManager.canUserAccessProject(username,blId);
      if(!authAns && userAuth) {

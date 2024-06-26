@@ -24,6 +24,7 @@ async function getBlockliveToken(username) {
 }
 
 async function recordVerifyError(message) {
+    if(!message) {message = `undefined, ${await getVerifyError()}`}
     console.log('recodring error',message)
     if(!message) {message = 'unspecificed error'}
     if(message instanceof Error) {message = `${message.trace}`}

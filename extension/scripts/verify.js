@@ -7,17 +7,20 @@ function askVerify() {
 }
 askVerify()
 
-async function setCloudVar(value, AUTH_PROJECTID) {
+async function setCloudVar(value, AUTH_PROJECTID) { 
   const user = await chrome.runtime.sendMessage({ meta: 'getUsername' });
   if(user=='*') {return {err:'blocklive thinks you are logged out'}}
   const connection = new WebSocket("wss://clouddata.scratch.mit.edu");
-  connection.onerror = function (error) {
-    console.error('WebSocket error:', error);
-    connection.close();
-    return {err:error};
-  };
+ 
   let setAndClose = new Promise((res) => {
     try{
+
+      connection.onerror = function (error) {
+        console.error('WebSocket error:', error);
+        connection.close();
+        res({err:error});
+      };
+
     connection.onopen = async () => {
       connection.send(
         JSON.stringify({ method: "handshake", project_id: AUTH_PROJECTID, user }) + "\n");

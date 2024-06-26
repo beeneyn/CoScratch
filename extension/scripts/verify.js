@@ -1,21 +1,22 @@
 function askVerify() {
   chrome.runtime.sendMessage({ meta: 'verify?' }, async (response) => {
-    let ok = await setCloudTempCode(response.code, response.project)
-    chrome.runtime.sendMessage({ meta: 'setCloud', ok })
+    if(!response) {return;}
+    let res = await setCloudTempCode(response.code, response.project)
+    chrome.runtime.sendMessage({ meta: 'setCloud', res })
   })
 }
 askVerify()
 
 async function setCloudVar(value, AUTH_PROJECTID) {
   const user = await chrome.runtime.sendMessage({ meta: 'getUsername' });
-
+  if(user=='*') {return {err:'blocklive thinks you are logged out'}}
   const connection = new WebSocket("wss://clouddata.scratch.mit.edu");
   connection.onerror = function (error) {
     console.error('WebSocket error:', error);
     connection.close();
-    return false;
+    return {err:error};
   };
-  let setAndClose = new Promise((res,err) => {
+  let setAndClose = new Promise((res) => {
     try{
     connection.onopen = async () => {
       connection.send(
@@ -31,10 +32,10 @@ async function setCloudVar(value, AUTH_PROJECTID) {
         }) + "\n"
       );
       connection.close();
-      res();
-      return true;
+      res({ok:true});
+      return {ok:true};
     };
-  } catch(e) {err(e)}
+  } catch(e) {res({err:e})}
   })
   return await setAndClose
 }
@@ -42,6 +43,7 @@ async function setCloudVar(value, AUTH_PROJECTID) {
 
 async function setCloudTempCode(code, projectInfo) {
   let response = await setCloudVar(code, projectInfo);
+  if(response.err instanceof Error) {response.err = response.err.stack}
   return response;
 }
 

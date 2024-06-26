@@ -106,6 +106,13 @@ export function setPaths(app, userManagerr, sessionManagerr) {
             next(err);
         }
     })
+    app.post('/verify/recordError',(req,res)=>{
+        let message = req.body.msg;
+        let username = req.headers.uname
+        logAuth(username,false,'set cloud',message)
+        console.log('msg',message)
+        res.end()
+    })
 }
 
 let cachedCloud = []

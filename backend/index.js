@@ -228,7 +228,8 @@ let messageHandlers = {
                let loggingMsg = '🔴 FILTERED CHAT: ' + '"' + text + '" [' + sender + '->' + sentTo.join(',') + ' | scratchid: ' + project.scratchId + ']'
                console.error(loggingMsg)
                postText(loggingMsg)
-               data.msg.msg.text = '*'.repeat(text.length)
+               text = '*'.repeat(text.length)
+               data.msg.msg.text = text
           // return;
           }
 

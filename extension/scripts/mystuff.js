@@ -266,7 +266,7 @@ async function convertToBlocklive(listItem, projectObj) {
 
   atts.buttonText = listItem.children[0].children[2].children[0].children[0].innerText
   listItem.children[0].children[2].children[0].children[0].innerText = 'Unlink'
-  listItem.children[0].children[2].children[0].children[0].onclick = () => { cleanseOfBlockliveness(projectObj.scratchId, listItem); sendLeave(projectObj.scratchId, projectObj.blId) }
+  listItem.children[0].children[2].children[0].children[0].onclick = (e) => {cleanseOfBlockliveness(projectObj.scratchId, listItem); sendLeave(projectObj.scratchId, projectObj.blId); e.stopPropagation();  }
   atts.title = listItem.children[0].children[1].children[0].children[0].innerText
   listItem.children[0].children[1].children[0].children[0].innerText = projectObj.title
 

@@ -1,6 +1,6 @@
 // be mindful of:
 // numbers being passed as strings
-export const bypassAuth = true // until everyone gets the new client version
+export const bypassAuth = false // until everyone gets the new client version
 
 ///////////
 import express from 'express'
@@ -339,7 +339,7 @@ app.post('/projectSavedJSON/:blId/:version',(req,res)=>{
      if(!fullAuthenticate(req.headers.uname,req.headers.authorization,req.params.blId)) {res.send({noauth:true}); return;}
 
      let json = req.body;
-     console.log('saving project, blId: ',req.params.blId, ' version: ',req.params.version, 'json is null?: ' + !json)
+     // console.log('saving project, blId: ',req.params.blId, ' version: ',req.params.version, 'json is null?: ' + !json)
      let project = sessionManager.getProject(req.params.blId)
      if(!project) {console.log('could not find project!!!');
           res.send('not as awesome awesome :)')

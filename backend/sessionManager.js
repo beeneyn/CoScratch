@@ -433,7 +433,7 @@ export default class SessionManager {
     }
     offloadProject(id) {
         try {
-            console.log('offloading project ' + id)
+            // console.log('offloading project ' + id)
             this.blocklive[id]?.trimChanges()
             let toSaveBlocklive = {}
             toSaveBlocklive[id] = this.blocklive[id]
@@ -445,7 +445,7 @@ export default class SessionManager {
     }
     async offloadProjectAsync(id) {
         try {
-            console.log('offloading project ' + id)
+            // console.log('offloading project ' + id)
             let toSaveBlocklive = {}
             toSaveBlocklive[id] = this.blocklive[id]
             if (toSaveBlocklive[id]) { // only save it if there is actual data to save

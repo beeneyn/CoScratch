@@ -55,6 +55,7 @@ export function setPaths(app, userManagerr, sessionManagerr) {
         let verifyCode = generateAuthCode();
 
         pendingMap[clientCode] = verifyCode;
+        setTimeout(()=>{delete pendingMap[clientCode]},1000 * 60) // delete pending verifications after one minute
         res.send({ code: verifyCode, project: getAuthProjectId() })
     })
 

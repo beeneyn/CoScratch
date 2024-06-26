@@ -211,6 +211,7 @@ let messageHandlers = {
      'chat':(data,client)=>{
           const BROADCAST_KEYWORD = 'toall '
 
+          delete data.msg.msg.linkify
           let text = String(data.msg.msg.text)
           let sender = data.msg.msg.sender
           let project = sessionManager.getProject(data.blId)

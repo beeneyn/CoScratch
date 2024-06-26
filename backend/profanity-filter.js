@@ -225,6 +225,11 @@ export class Filter {
             this.tester.addWord(line.toString('ascii'));
         }
 
+        lines = new Lines('./secrets/baddomains.txt')
+        while (line = lines.next()) {
+            this.tester.addWord(line.toString('ascii'));
+        }
+
         lines = new Lines('./filterwords/okWords.txt')
         while (line = lines.next()) {
             this.compressor.addRemove(line.toString('ascii').toLowerCase());

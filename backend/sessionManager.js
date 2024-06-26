@@ -285,6 +285,7 @@ class ProjectWrapper {
             "msg": {
                 "sender": from,
                 "text": message,
+                "linkify": true,
             }
         }
         this.session.sendChangeFrom(null, msg, true)

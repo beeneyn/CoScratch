@@ -712,6 +712,7 @@ export default class SessionManager {
         let set1 = new Set();
         let set2 = new Set();
         let stats = {
+            active1HrCollabing:0,
             active2HrCollabing:0,
             active24HrCollabing:0,
             active1weekCollabing:0,
@@ -772,6 +773,7 @@ export default class SessionManager {
         stats.usersActiveCount = stats.usersActive.length
         stats.usersActiveMoreThan1EditorCount = oldUsersActiveMoreThan1Editor.length
 
+        stats.active1HrCollabing = countRecentShared(1/24);
         stats.active2HrCollabing = countRecentShared(1/24*2);
         stats.active24HrCollabing = countRecentShared(1);
         stats.active1weekCollabing = countRecentShared(7);

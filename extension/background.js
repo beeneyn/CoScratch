@@ -328,6 +328,7 @@ chrome.runtime.onConnectExternal.addListener(function(port) {
 
   });
   port.onDisconnect.addListener((p)=>{
+    console.log('port disconnected',p)
     ports.splice(ports.indexOf(p),1);
     let blockliveId = portIds[p.name]
     let list = blockliveTabs[blockliveId]

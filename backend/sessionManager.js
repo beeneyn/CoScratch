@@ -711,6 +711,9 @@ export default class SessionManager {
     getStats() {
         let set1 = new Set();
         let set2 = new Set();
+        let aloneSet = new Set();
+        let sharedSet = new Set();
+        let collabingSet = new Set();
         let stats = {
             active1HrCollabing:0,
             active2HrCollabing:0,
@@ -736,6 +739,9 @@ export default class SessionManager {
             usersActiveMoreThan1EditorCount: 0,
             monthlyProjects:0,
             monthlyScratchIds:0,
+            collabingNow:0,
+            sharedNow:0,
+            aloneNow:0,
             usersActive: [],
             usersActiveMoreThan1Editor: [],
             projectsActiveSingleEditor:[],
@@ -753,6 +759,8 @@ export default class SessionManager {
             try {
                 if(connectedUsernames.length==1) {
                     stats.projectsActiveSingleEditor.push(project.scratchId)
+                    if(project.sharedWith?.length==0) {connectedUsernames.forEach(aloneSet.add, aloneSet)}
+                    if(project.sharedWith?.length>0) {connectedUsernames.forEach(sharedSet.add, sharedSet)}
                 }
                 if (connectedUsernames.length > 0) {
                     stats.totalActiveProjects++;
@@ -760,7 +768,7 @@ export default class SessionManager {
                 }
                 if (connectedUsernames.length > 1) {
                     stats.totalProjectsMoreThan1Editor++;
-                    connectedUsernames.forEach(set2.add, set2)
+                    connectedUsernames.forEach(collabingSet.add, collabingSet)
                     stats.usersActiveMoreThan1Editor.push(connectedUsernames)
                     stats.projectsActiveMoreThan1Editor.push(project.scratchId)
                 }
@@ -771,9 +779,17 @@ export default class SessionManager {
             } catch (e) { console.error(e) }
         })
         stats.usersActive = Array.from(set1);
-        let oldUsersActiveMoreThan1Editor = Array.from(set2);
+        let oldUsersActiveMoreThan1Editor = Array.from(collabingSet);
         stats.usersActiveCount = stats.usersActive.length
         stats.usersActiveMoreThan1EditorCount = oldUsersActiveMoreThan1Editor.length
+
+        collabingSet.forEach(aloneSet.delete,aloneSet)
+        collabingSet.forEach(sharedSet.delete,sharedSet)
+        sharedSet.forEach(aloneSet.delete,aloneSet)
+
+        stats.collabingNow = collabingSet.size;
+        stats.sharedNow = sharedSet.size;
+        stats.aloneNow = aloneSet.size;
 
         stats.active1HrCollabing = countRecentShared(1/24);
         stats.active2HrCollabing = countRecentShared(1/24*2);

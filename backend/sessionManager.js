@@ -734,6 +734,8 @@ export default class SessionManager {
             totalProjectsMoreThan1Editor: 0,
             usersActiveCount: 0,
             usersActiveMoreThan1EditorCount: 0,
+            monthlyProjects:0,
+            monthlyScratchIds:0,
             usersActive: [],
             usersActiveMoreThan1Editor: [],
             projectsActiveSingleEditor:[],
@@ -779,10 +781,12 @@ export default class SessionManager {
         stats.active1weekCollabing = countRecentShared(7);
         stats.active30dCollabing = countRecentShared(30);
         stats.active24HrRealtime = countRecentRealtime(1);
+        stats.active2HrRealtime = countRecentRealtime(1/24*2);
         stats.active1weekRealtime = countRecentRealtime(7);
         stats.active30dRealtime = countRecentRealtime(30);
         stats.active1Hr = countRecent(1/24);
         stats.active1HrRealtime = countRecentRealtime(1/24);
+        stats.active2Hr = countRecent(1/24*2);
         stats.active24Hr = countRecent(1);
         stats.active1week = countRecent(7);
         stats.active30d = countRecent(30);
@@ -790,7 +794,9 @@ export default class SessionManager {
         stats.popup1week = countPopup(7);
         stats.popup1month = countPopup(30);
         stats.popupUnique24hr = countUniquePopup(1)
-        stats.popupUnique1week = countUniquePopup(7)
+        stats.popupUnique1week = countUniquePopup(7);
+        stats.monthlyProjects = fs.readdirSync(blocklivePath).length
+        stats.monthlyScratchIds = fs.readdirSync(scratchprojectsPath).length
 
         stats.auth = getAuthStats();
         stats.auth.numWithCreds = numWithCreds;

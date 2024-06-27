@@ -180,8 +180,8 @@ export function deleteFreePass(username) {
 }
 
 
-export function authenticate(username, token) {
-    if (bypassAuth) { return true }
+export function authenticate(username, token, bypassBypass) {
+    if (bypassAuth && !bypassBypass) { return true }
     if(!username) { console.error(`undefined username attempted to authenticate with token ${token}`); return '*'}
     let success = hasFreePass(username) || userManager.getUser(username).token == token
     if (success) {

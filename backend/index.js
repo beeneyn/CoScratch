@@ -216,7 +216,7 @@ let messageHandlers = {
           let sender = data.msg.msg.sender
           let project = sessionManager.getProject(data.blId)
 
-          if(!fullAuthenticate(sender,data.token,data.blId)) {client.send({noauth:true}); return;}
+          if(!fullAuthenticate(sender,data.token,data.blId,true)) {client.send({noauth:true}); return;}
           if(admin.includes(sender?.toLowerCase()) && text.startsWith(BROADCAST_KEYWORD)) {
                let broadcast=text.slice(BROADCAST_KEYWORD.length)
                console.log(`broadcasting message to all users: "${broadcast}" [${sender}]`)
@@ -606,13 +606,14 @@ app.get('/verify/bypass',(req,res)=>{
 
 export let numWithCreds = 0
 export let numWithoutCreds = 0
-function fullAuthenticate(username,token,blId) {
+//bypassBypass means to bypass the bypass even if the bypass is enabled
+function fullAuthenticate(username,token,blId,bypassBypass) {
      if(token) {numWithCreds++}
      else {numWithoutCreds++}
-     if(bypassAuth) {return true} // remove once the new version has passed
+     if(bypassAuth && !bypassBypass) {return true} // remove once the new version has passed
      // and remove line 448 "sessionManager.canUserAccessProject"
      if(!username) { console.error(`undefined username attempted to authenticate on project ${blId} with token ${token}`); username = '*'}
-     let userAuth = authenticate(username,token)
+     let userAuth = authenticate(username,token,bypassBypass)
      let authAns = userAuth && sessionManager.canUserAccessProject(username,blId);
      if(!authAns && userAuth) {
           console.error(`🟪☔️ Project Authentication failed for user: ${username}, bltoken: ${token}, blId: ${blId}`)

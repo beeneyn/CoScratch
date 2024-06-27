@@ -281404,8 +281404,6 @@ os
 ow
 ox
 oy
-pa
-pe
 pi
 po
 qi

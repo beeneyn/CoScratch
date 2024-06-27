@@ -256,7 +256,7 @@ export class Filter {
     }
 
     isVulgar(string) {
-        string = this.compressor.removeOkWords(string)
+        // string = this.compressor.removeOkWords(string)
         return this.tester.containsWord(this.compressor.compress(string.toLowerCase())) || this.tester.containsWord(this.compressor.shear(string.toLowerCase() + " ")) || this.hasSpaceWord(string.toLowerCase())
     }
     getCensored(string) {

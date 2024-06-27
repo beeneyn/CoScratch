@@ -227,7 +227,6 @@ export class Filter {
 
         lines = new Lines('./filterwords/bademojis.txt')
         while (line = lines.next()) {
-            console.log(line.toString())
             this.tester.addWord(line.toString());
         }
 

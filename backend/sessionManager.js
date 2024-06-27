@@ -716,9 +716,11 @@ export default class SessionManager {
             active24HrCollabing:0,
             active1weekCollabing:0,
             active30dCollabing:0,
+            active1HrRealtime:0,
             active24HrRealtime:0,
             active1weekRealtime:0,
             active30dRealtime:0,
+            active1Hr:0,
             active24Hr:0,
             active1week:0,
             active30d:0,
@@ -777,6 +779,8 @@ export default class SessionManager {
         stats.active24HrRealtime = countRecentRealtime(1);
         stats.active1weekRealtime = countRecentRealtime(7);
         stats.active30dRealtime = countRecentRealtime(30);
+        stats.active1Hr = countRecent(1/24);
+        stats.active1HrRealtime = countRecentRealtime(1/24);
         stats.active24Hr = countRecent(1);
         stats.active1week = countRecent(7);
         stats.active30d = countRecent(30);

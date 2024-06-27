@@ -49,7 +49,8 @@ export function setPaths(app, userManagerr, sessionManagerr) {
     userManager = userManagerr
     sessionManager = sessionManagerr
     app.get('/verify/start', (req, res) => { // ?code=000000
-        console.log('starting to authenticate a user')
+        let debugUname = req.headers.uname
+        console.log(`starting to authenticate user ${debugUname}`)
 
         let clientCode = req.query.code;
         let verifyCode = generateAuthCode();
@@ -73,7 +74,7 @@ export function setPaths(app, userManagerr, sessionManagerr) {
 
             let cloud = await getVerificationCloud(tempCode)
             if (!cloud || cloud?.err) {
-                console.log("retrying...");
+                console.log(`retrying... ${req.headers.uname}`);
                 await sleep(CLOUD_WAIT)
                 cloud = await getVerificationCloud()
             }

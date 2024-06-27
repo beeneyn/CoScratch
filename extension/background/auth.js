@@ -76,7 +76,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
                 let verifyResponse;
                 try{
-                    verifyResponse = await (await fetch(`${apiUrl}/verify/start?code=${clientCode}`)).json()
+                    verifyResponse = await (await fetch(`${apiUrl}/verify/start?code=${clientCode}`,{headers:{uname}})).json()
                 } catch (e) {
                     console.error('verify init network request error');
                     chrome.storage.local.set({verifyServerConnErr:true})
@@ -175,6 +175,6 @@ function storeBlockliveToken(username,token,current) {
     if(current) {currentBlToken = token}
 }
 
-async function getConfimationCode(tempCode) {
-    return await (await fetch(`${apiUrl}/verify/start?code=${tempCode}`)).json();
-}
+// async function getConfimationCode(tempCode) {
+//     return await (await fetch(`${apiUrl}/verify/start?code=${tempCode}`)).json();
+// }

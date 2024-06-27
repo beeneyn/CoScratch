@@ -227,11 +227,14 @@ let messageHandlers = {
           if(filter.isVulgar(text)) {
                let sentTo = project.session.getConnectedUsernames().filter(uname=>uname!=sender?.toLowerCase())
                let loggingMsg = '🔴 FILTERED CHAT: ' + '"' + text + '" [' + sender + '->' + sentTo.join(',') + ' | scratchid: ' + project.scratchId + ']'
+               
+               text = filter.getCensored(text)
+               data.msg.msg.text = text
+              
+               loggingMsg = loggingMsg + `\nCensored as: "${text}"`
                console.error(loggingMsg)
                postText(loggingMsg)
                // text = '*'.repeat(text.length)
-               text = filter.getCensored(text)
-               data.msg.msg.text = text
           // return;
           }
 

@@ -225,6 +225,12 @@ export class Filter {
             this.tester.addWord(line.toString('ascii'));
         }
 
+        lines = new Lines('./filterwords/bademojis.txt')
+        while (line = lines.next()) {
+            console.log(line.toString())
+            this.tester.addWord(line.toString());
+        }
+
         lines = new Lines('./secrets/baddomains.txt')
         while (line = lines.next()) {
             this.tester.addWord(line.toString('ascii'));
@@ -263,3 +269,4 @@ export class Filter {
         return string.split(' ').map(word=>(word.toLowerCase() in this.compressor.okWords) ? word : '*'.repeat(word.length)).join(' ')
     }
 }
+

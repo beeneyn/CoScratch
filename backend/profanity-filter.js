@@ -240,7 +240,7 @@ export class Filter {
             this.addSpaceWord(line.toString('ascii'))
         }
 
-        lines = new Lines('./filterwords/okWordsSpace.txt')
+        lines = new Lines('./filterwords/processedOkSpaceWords.txt')
         while (line = lines.next()) {
             this.compressor.addOkWord(line.toString('ascii'))
         }

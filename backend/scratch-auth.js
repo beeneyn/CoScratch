@@ -32,7 +32,7 @@ function sleep(millis) {
 
 let idIndex = 0;
 export function getAuthStats() {
-    return { idIndex, info: getAuthProjectId(), failed: failedAuthLog, secondTimeSuccessCount:Object.keys(secondTimeSuccessAuthLog).length }
+    return { idIndex, info: getAuthProjectId(), failed: Object.keys(failedAuthLog).length, secondTimeSuccessCount:Object.keys(secondTimeSuccessAuthLog).length }
 }
 
 function generateAuthCode() {

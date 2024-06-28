@@ -17,13 +17,14 @@ import http from 'http'
 
 let server;
 
-if(os.platform()=='darwin') { // || os.platform()=='win32') { // I use windows...
-     server = http.createServer(app);
-} else {  
+let httpServer = http.createServer(app);
+let httpsServer = null
+
+if(!['darwin','win32'].includes(os.platform())) { // || os.platform()==) { // 
      let homedir = '/home/opc'
      let privateKey = fs.readFileSync( homedir + path.sep + 'letsencrypt/live/spore.us.to/privkey.pem' );
      let certificate = fs.readFileSync( homedir + path.sep + 'letsencrypt/live/spore.us.to/fullchain.pem' );
-     server = https.createServer({
+     httpsServer = https.createServer({
           key: privateKey,
           cert: certificate,
      },app); 
@@ -36,7 +37,14 @@ if(os.platform()=='darwin') { // || os.platform()=='win32') { // I use windows..
 /////////
 
 import {Server} from 'socket.io'
-const io = new Server(server, {
+let ioHttps = null
+if(httpsServer) {
+     ioHttps = new Server(httpsServer, {
+          cors:{origin:'*'},
+          maxHttpBufferSize:2e7
+     });
+}
+const ioHttp = new Server(httpServer, {
      cors:{origin:'*'},
      maxHttpBufferSize:2e7
 });
@@ -251,7 +259,9 @@ let messageHandlers = {
 
 let sendMessages = ['blProjectInfo','projectChange','loadFromId','projectChanges']
 
-io.on('connection', (client) => {
+if(httpsServer){ioHttps.on('connection', onSocketConnection);}
+ioHttp.on('connection', onSocketConnection);
+function onSocketConnection(client) {
      client.on("message",(data,callback)=>{
           // console.log('message recieved',data,'from: ' + client.id)
           if(data.type in messageHandlers) {
@@ -276,7 +286,7 @@ io.on('connection', (client) => {
      client.on('disconnect',(reason)=>{
           sessionManager.disconnectSocket(client)
      })
-});
+}
 
 app.post('/newProject/:scratchId/:owner',(req,res)=>{
      if(!authenticate(req.params.owner,req.headers.authorization)) {res.send({noauth:true}); return;}
@@ -621,9 +631,15 @@ function fullAuthenticate(username,token,blId,bypassBypass) {
      return authAns
 }
 
-const port = 4000
-server.listen(port,'0.0.0.0');
-console.log('listening on port ' + port)
+const httpPort = 4000
+const httpsPort = 4001
+httpServer.listen(httpPort,'0.0.0.0');
+console.log('listening http on port ' + httpPort)
+if(httpsServer) {
+     httpsServer.listen(httpsPort,'0.0.0.0'); 
+     console.log('listening https on port ' + httpsPort)
+}
+
 
 // initial handshake:
 // client says hi, sends username & creds, sends project id 

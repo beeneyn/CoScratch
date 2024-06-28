@@ -15,8 +15,6 @@ import path from 'path';
 import https from 'https'
 import http from 'http'
 
-let server;
-
 let httpServer = http.createServer(app);
 let httpsServer = null
 

@@ -631,8 +631,8 @@ function fullAuthenticate(username,token,blId,bypassBypass) {
      return authAns
 }
 
-const httpPort = 4000
-const httpsPort = 4001
+const httpPort = 4001
+const httpsPort = 4000
 httpServer.listen(httpPort,'0.0.0.0');
 console.log('listening http on port ' + httpPort)
 if(httpsServer) {

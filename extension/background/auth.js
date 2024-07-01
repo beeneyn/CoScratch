@@ -61,6 +61,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     ;
     (async ()=>{
     if (request.meta == 'verify?') {
+        if(uname=='*') {return} // dont verify if user is logged out
         console.log('verify recieved')
         let token = await getCurrentBlToken();
         let freepassExpired = false;

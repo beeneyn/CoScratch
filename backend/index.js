@@ -474,14 +474,14 @@ app.get('/userRedirect/:scratchId/:username',(req,res)=>{
 
      if(!project) {res.send({goto:'none'})}
      else {
-          let ownedProject = project.getOwnersProject(req.params.username)
-          if(!!ownedProject) {
-               res.send({goto:ownedProject.scratchId})
-          } else if(project.isSharedWith(req.params.username) || req.params.username=='ilhp10' || req.params.username=='rgantzos') {
+          // let ownedProject = project.getOwnersProject(req.params.username)
+          // if(!!ownedProject) {
+          //      res.send({goto:ownedProject.scratchId})
+          // } else if(project.isSharedWith(req.params.username) || admin.includes(req.params.username)) {
                res.send({goto:'new', blId:project.id})
-          } else {
-               res.send({goto:'none',notshared:true})
-          }
+          // } else {
+          //      res.send({goto:'none',notshared:true})
+          // }
      }
 })
 // app.get('/projectInpoint',(req,res)=>{
@@ -622,6 +622,7 @@ function fullAuthenticate(username,token,blId,bypassBypass) {
      // and remove line 448 "sessionManager.canUserAccessProject"
      if(!username) { console.error(`undefined username attempted to authenticate on project ${blId} with token ${token}`); username = '*'}
      let userAuth = authenticate(username,token,bypassBypass)
+     if(admin.includes(username)) {return true}
      let authAns = userAuth && sessionManager.canUserAccessProject(username,blId);
      if(!authAns && userAuth) {
           console.error(`🟪☔️ Project Authentication failed for user: ${username}, bltoken: ${token}, blId: ${blId}`)

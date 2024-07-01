@@ -18,7 +18,7 @@ import http from 'http'
 let httpServer = http.createServer(app);
 let httpsServer = null
 
-if(!['darwin','win32'].includes(os.platform())) { // || os.platform()==) { // 
+if(!['darwin','win32'].includes(os.platform())) {
      let homedir = '/home/opc'
      let privateKey = fs.readFileSync( homedir + path.sep + 'letsencrypt/live/spore.us.to/privkey.pem' );
      let certificate = fs.readFileSync( homedir + path.sep + 'letsencrypt/live/spore.us.to/fullchain.pem' );

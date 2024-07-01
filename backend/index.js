@@ -301,10 +301,10 @@ app.post('/newProject/:scratchId/:owner',(req,res)=>{
      res.send({id:project.id})
 })
 
-app.get('/blId/:scratchId',(req,res)=>{
-     // res.send(sessionManager.scratchprojects[req.params.scratchId]?.blId)
-     res.send(sessionManager.getScratchProjectEntry(req.params.scratchId)?.blId)
-})
+// app.get('/blId/:scratchId',(req,res)=>{
+//      // res.send(sessionManager.scratchprojects[req.params.scratchId]?.blId)
+//      res.send(sessionManager.getScratchProjectEntry(req.params.scratchId)?.blId)
+// })
 app.get('/blId/:scratchId/:uname',(req,res)=>{
      // let blId = sessionManager.scratchprojects[req.params.scratchId]?.blId
      let blId = sessionManager.getScratchProjectEntry(req.params.scratchId)?.blId

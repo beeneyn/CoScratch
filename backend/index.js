@@ -474,14 +474,12 @@ app.get('/userRedirect/:scratchId/:username',(req,res)=>{
 
      if(!project) {res.send({goto:'none'})}
      else {
-          // let ownedProject = project.getOwnersProject(req.params.username)
-          // if(!!ownedProject) {
-          //      res.send({goto:ownedProject.scratchId})
-          // } else if(project.isSharedWith(req.params.username) || admin.includes(req.params.username)) {
+          let ownedProject = project.getOwnersProject(req.params.username)
+          if(!!ownedProject) {
+               res.send({goto:ownedProject.scratchId})
+          } else {
                res.send({goto:'new', blId:project.id})
-          // } else {
-          //      res.send({goto:'none',notshared:true})
-          // }
+          }
      }
 })
 // app.get('/projectInpoint',(req,res)=>{

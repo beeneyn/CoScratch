@@ -619,9 +619,10 @@ function fullAuthenticate(username,token,blId,bypassBypass) {
      // and remove line 448 "sessionManager.canUserAccessProject"
      if(!username) { console.error(`undefined username attempted to authenticate on project ${blId} with token ${token}`); username = '*'}
      let userAuth = authenticate(username,token,bypassBypass)
-     let authAns = (userAuth || (bypassUserAuth && !bypassBypass)) && (sessionManager.canUserAccessProject(username,blId) ||
+     let isUserBypass = (bypassUserAuth && !bypassBypass);
+     let authAns = ((userAuth || isUserBypass)) && (sessionManager.canUserAccessProject(username,blId) ||
           admin.includes(username));
-     if(!authAns && userAuth) {
+     if(!authAns && (userAuth || isUserBypass)) {
           console.error(`🟪☔️ Project Authentication failed for user: ${username}, bltoken: ${token}, blId: ${blId}`)
      }
      return authAns

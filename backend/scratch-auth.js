@@ -1,5 +1,5 @@
 
-import { bypassAuth } from "./index.js";
+import { bypassUserAuth } from "./index.js";
 import { authProjects } from "./secrets/secrets.js";
 import fs from 'fs'
 export const freePassesPath = 'storage/freePasses.json'
@@ -182,7 +182,7 @@ export function deleteFreePass(username) {
 
 
 export function authenticate(username, token, bypassBypass) {
-    if (bypassAuth && !bypassBypass) { return true }
+    if (bypassUserAuth && !bypassBypass) { return true }
     if(!username) { console.error(`undefined username attempted to authenticate with token ${token}`); return '*'}
     let success = hasFreePass(username) || userManager.getUser(username).token == token
     if (success) {

@@ -1,6 +1,6 @@
 // be mindful of:
 // numbers being passed as strings
-export const bypassAuth = true // until everyone gets the new client version
+export const bypassUserAuth = true // until everyone gets the new client version
 
 ///////////
 import express from 'express'
@@ -570,7 +570,7 @@ app.put('/leaveBlId/:blId/:username',(req,res)=>{
      res.send('uncool beans!!!! /|/|/|')
 })
 app.get('/verify/test',(req,res)=>{
-     res.send({verified:authenticate(req.query.username,req.headers.authorization),bypass:bypassAuth})
+     res.send({verified:authenticate(req.query.username,req.headers.authorization),bypass:bypassUserAuth})
 })
 
 
@@ -607,7 +607,7 @@ app.put('/unshare/:id/:to/',(req,res)=>{
      res.send('uncool beans!!!! /|/|/|')
 })
 app.get('/verify/bypass',(req,res)=>{
-     res.send(bypassAuth)
+     res.send(bypassUserAuth)
 })
 
 export let numWithCreds = 0
@@ -616,11 +616,10 @@ export let numWithoutCreds = 0
 function fullAuthenticate(username,token,blId,bypassBypass) {
      if(token) {numWithCreds++}
      else {numWithoutCreds++}
-     if(bypassAuth && !bypassBypass) {return true} // remove once the new version has passed
      // and remove line 448 "sessionManager.canUserAccessProject"
      if(!username) { console.error(`undefined username attempted to authenticate on project ${blId} with token ${token}`); username = '*'}
      let userAuth = authenticate(username,token,bypassBypass)
-     let authAns = userAuth && (sessionManager.canUserAccessProject(username,blId) ||
+     let authAns = (userAuth || (bypassUserAuth && !bypassBypass)) && (sessionManager.canUserAccessProject(username,blId) ||
           admin.includes(username));
      if(!authAns && userAuth) {
           console.error(`🟪☔️ Project Authentication failed for user: ${username}, bltoken: ${token}, blId: ${blId}`)

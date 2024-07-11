@@ -55,6 +55,16 @@ function endVerifying(success) {
     endVerifyCallbacks.forEach(func=>func?.(success))
 }
 
+chrome.runtime.onInstalled.addListener((details)=>{
+
+    chrome.storage.local.set({dontShowVerifyError:false})
+
+    if(details.reason === chrome.runtime.OnInstalledReason.INSTALL) {
+    } else if (details.reason === chrome.runtime.OnInstalledReason.UPDATE) {
+    }
+  })
+
+
 let clientCode = null;
 const VERIFY_RATELIMIT = 1000 * 60 * 10 // wait ten minutes before trying to update again
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
@@ -111,6 +121,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
                 storeBlockliveToken(uname,`freepass ${Date.now()}`,true)
                 endVerifying(true)
             } else if(tokenResponse.err) {
+                recordVerifyError(tokenResponse.err)
                 endVerifying(false)
             } else {
                 storeBlockliveToken(tokenResponse.username,tokenResponse.token,true) 

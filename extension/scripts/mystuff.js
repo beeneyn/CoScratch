@@ -387,7 +387,7 @@ chrome.runtime.sendMessage(exId, { meta: 'getUsernamePlus' }, async (userData) =
         removeHideBlockliveButton()
         setTimeout(() => { document.querySelector('#blSuccess').remove() }, 1000 * 2)
       } else {
-        defaultAddHideBlockliveButton()
+        defaultAddHideBlockliveButton(userData.verifyBypass)
         let error = await chrome.runtime.sendMessage(exId,{meta:'getVerifyError'})
         // let isBypass = userData.verifyBypass
         if(error=='no cloud') {
@@ -410,12 +410,12 @@ chrome.runtime.sendMessage(exId, { meta: 'getUsernamePlus' }, async (userData) =
         document.querySelector('.box-head').insertAdjacentHTML('afterend', `<div class="blBanner" id="unverified" style="background:red; color:white;">⚠️ Cant connect to blocklive servers at blocklivecollab.com <a href="https://status.uptime-monitor.io/6499c89d4bfb79bb5f20ac4d" target="_blank">Check Uptime</a> or <a onclick="(()=>{chrome.runtime.sendMessage(exId,{meta:'dontShowVerifyError',val:false}); addHideBlockliveButton(false);})()">Dont show this message again</a><div>`)
       }
       else if (verifying) {
-        defaultAddHideBlockliveButton()
+        defaultAddHideBlockliveButton(userData.verifyBypass)
         document.querySelector('#verifying')?.remove()
         document.querySelector('.box-head').insertAdjacentHTML('afterend', `<div class="blBanner" id="verifying" style="background:#ea47ff; color:white;"><img height=15 src="https://upload.wikimedia.org/wikipedia/commons/a/ad/YouTube_loading_symbol_3_%28transparent%29.gif"/> Blocklive is verifying your account ...<div>`)
       } else {
         if (newVerified) { return }
-        defaultAddHideBlockliveButton()
+        defaultAddHideBlockliveButton(userData.verifyBypass)
         document.querySelector('.box-head').insertAdjacentHTML('afterend', `<div class="blBanner" id="unverified" style="background:red; color:white;">⚠️ Blocklive could not verify your account. Reload the tab in a few seconds. If this issue continues, contact @ilhp10 or @rgantzos<div>`)
       }
     })

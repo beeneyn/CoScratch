@@ -1,6 +1,6 @@
 // be mindful of:
 // numbers being passed as strings
-export const bypassUserAuth = true // until everyone gets the new client version
+export const bypassUserAuth = false // until everyone gets the new client version
 
 ///////////
 import express from 'express'

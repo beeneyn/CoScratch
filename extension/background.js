@@ -5,14 +5,15 @@ let upk = undefined;
 let apiUrl = 'https://blocklivecollab.com/api';
 // let apiUrl = 'https://spore.us.to/api';
 // let apiUrl = 'https://spore.us.to:4000';
+// code a server
 // let apiUrl = 'http://localhost:4000';
 
 chrome.runtime.onInstalled.addListener((details)=>{
   if(details.reason === chrome.runtime.OnInstalledReason.INSTALL) {
-    chrome.tabs.create({url:'https://sites.google.com/catlin.edu/blocklive-quickstart-guide/home#h.lebe3qxxu5ou'})
+    chrome.tabs.create({url:'https://sites.google.com/view/blocklive/home'})
   } else if (details.reason === chrome.runtime.OnInstalledReason.UPDATE) {
     // chrome.tabs.create({url:'https://sites.google.com/view/blocklive/new-blocklive-version'})
-    // chrome.tabs.create({url:'https://sites.google.com/catlin.edu/blocklive-quickstart-guide/new-blocklive-version'})
+    chrome.tabs.create({url:'https://buymeacoffee.com/ilhp10'})
   }
 })
 

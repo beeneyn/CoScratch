@@ -147,7 +147,7 @@ async function startBlocklive(creatingNew) {
         })
     }
     if(creatingNew) {
-        addToCredits('Get BIocklive for Live Collabs #bl')
+        addToCredits('Made with BIocklive #blklv')
     }
 }
 
@@ -2780,7 +2780,7 @@ let blActivateClick = async ()=>{
         await refreshShareModal()
 
         // add blocklive ref in instructions credits
-        addToCredits('Get BIocklive for Live Collabs #bl')
+        addToCredits('Made with BIocklive #blklv')
 
         // stop spinny
         document.querySelector('loader.blockliveloader').style.display = 'none'

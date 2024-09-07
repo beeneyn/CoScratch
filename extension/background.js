@@ -10,10 +10,13 @@ let apiUrl = 'https://blocklivecollab.com/api';
 
 chrome.runtime.onInstalled.addListener((details)=>{
   if(details.reason === chrome.runtime.OnInstalledReason.INSTALL) {
-    chrome.tabs.create({url:'https://sites.google.com/view/blocklive/home'})
-  } else if (details.reason === chrome.runtime.OnInstalledReason.UPDATE) {
-    // chrome.tabs.create({url:'https://sites.google.com/view/blocklive/new-blocklive-version'})
     chrome.tabs.create({url:'https://buymeacoffee.com/ilhp10'})
+    chrome.tabs.create({url:'https://sites.google.com/view/blocklive/home'})
+    
+  } else if (details.reason === chrome.runtime.OnInstalledReason.UPDATE) {
+    
+    // chrome.tabs.create({url:'https://sites.google.com/view/blocklive/new-blocklive-version'})
+    // chrome.tabs.create({url:'https://buymeacoffee.com/ilhp10'})
   }
 })
 
@@ -346,72 +349,77 @@ var notifListenerAdded = false;
 
 // Proxy project update messages
 chrome.runtime.onMessageExternal.addListener(
-  async function (request, sender, sendResponse) {
-    console.log("external message:", request);
-    if(request.meta == 'getBlId') {
-      if(!request.scratchId || request.scratchId == '.') {return ''}
-      sendResponse((await (await fetch(`${apiUrl}/blId/${request.scratchId}/${uname}`,{headers:{authorization:currentBlToken}})).text()).replaceAll('"',''))
-    // } else if(request.meta =='getInpoint') {
-    //   sendResponse(await (await fetch(`${apiUrl}/projectInpoint/${request.blId}`)).json())
-    } else if(request.meta =='getJson') {
-      try{
-      sendResponse(await (await fetch(`${apiUrl}/projectJSON/${request.blId}?username=${uname}`,{headers:{authorization:currentBlToken}})).json())
-    } catch(e) {sendResponse({err:'blocklive id does not exist'})}
-    } else if(request.meta =='getChanges') {
-      sendResponse(await (await fetch(`${apiUrl}/changesSince/${request.blId}/${request.version}`,{headers:{authorization:currentBlToken,uname}})).json())
-    } else if(request.meta == 'getUsername') {
-      sendResponse(uname)
-    } else if(request.meta == 'getUsernamePlus') {
-      sendResponse({uname,signedin,currentBlToken,apiUrl,verifyBypass});
-    } else if(request.meta == 'callback') {
-      tabCallbacks[sender.tab.id] = sendResponse
-    } else if(request.meta == 'projectSaved') {
-      // {meta:'projectSaved',blId,scratchId,version:blVersion}
-      fetch(`${apiUrl}/projectSaved/${request.scratchId}/${request.version}`,{method:'POST',headers:{authorization:currentBlToken}})
-    } else if(request.meta == 'projectSavedJSON') {
-      // {meta:'projectSaved',blId,scratchId,version:blVersion}
-      fetch(`${apiUrl}/projectSavedJSON/${request.blId}/${request.version}`,{method:'POST',body:request.json,headers:{'Content-Type': 'application/json',authorization:currentBlToken,uname}})
-    } else if(request.meta == 'myStuff') {
-      sendResponse(await(await fetch(`${apiUrl}/userProjectsScratch/${await makeSureUsernameExists()}`,{headers:{authorization:currentBlToken}})).json())
-    } else if(request.meta == 'create') {
-      // sendResponse(await(await fetch(`${apiUrl}/newProject/${request.scratchId}/${await refreshUsername()}?title=${encodeURIComponent(request.title)}`)).json())
-      sendResponse(await(await fetch(`${apiUrl}/newProject/${request.scratchId}/${await refreshUsername()}?title=${encodeURIComponent(request.title)}`,
-      {
-        method:'POST',
-        body:request.json,
-        headers:{'Content-Type': 'application/json',authorization:currentBlToken}
-      }).then(res=>res.json()).catch(e=>({err:e.toString()}))))
-    } else if(request.meta == 'shareWith') {
-      fetch(`${apiUrl}/share/${request.id}/${request.username}/${uname}?pk=${request.pk}`,{
-        method:'PUT',
-        headers:{authorization:currentBlToken}
-      })
-    } else if(request.meta == 'unshareWith') {
-      fetch(`${apiUrl}/unshare/${request.id}/${request.user}`,{
-        method:'PUT',
-        headers:{authorization:currentBlToken,uname}
-      })
-    } else if(request.meta == 'getShared') {
-      sendResponse(await(await fetch(`${apiUrl}/share/${request.id}`,{headers:{authorization:currentBlToken,uname}})).json())
-    } else if (request.meta == 'getTitle') {
-      sendResponse((await(await fetch(`${apiUrl}/projectTitle/${request.blId}`,{headers:{authorization:currentBlToken,uname}})).json()).title)
-    } else if(request.meta == 'leaveScratchId') {
-      fetch(`${apiUrl}/leaveScratchId/${request.scratchId}/${await refreshUsername()}`,{
-        method:'PUT',
-        headers:{authorization:currentBlToken}
-      })
-    } else if(request.meta == 'leaveBlId') {
-      fetch(`${apiUrl}/leaveBlId/${request.blId}/${await refreshUsername()}`,{
-        method:'PUT',
-        headers:{authorization:currentBlToken}
-      })
-    } else if(request.meta == 'getActive') {
-      sendResponse(await (await fetch(`${apiUrl}/active/${request.id}`,{headers:{authorization:currentBlToken,uname}})).json())
-    } else if(request.meta=='getPingUrl') {
-      sendResponse(await chrome.runtime.getURL("sounds/ping.mp3"))
-    } else if(request.meta=='isPingEnabled') {
-      sendResponse((await chrome.storage.local.get(['ping'])).ping )
-    }
+  function (request, sender, sendResponse) {
+    (async()=>{
+      console.log("external message:", request);
+      if(request.meta == 'getBlId') {
+        if(!request.scratchId || request.scratchId == '.') {return ''}
+        sendResponse((await (await fetch(`${apiUrl}/blId/${request.scratchId}/${uname}`,{headers:{authorization:currentBlToken}})).text()).replaceAll('"',''))
+      // } else if(request.meta =='getInpoint') {
+      //   sendResponse(await (await fetch(`${apiUrl}/projectInpoint/${request.blId}`)).json())
+      } else if(request.meta =='getJson') {
+        try{
+        sendResponse(await (await fetch(`${apiUrl}/projectJSON/${request.blId}?username=${uname}`,{headers:{authorization:currentBlToken}})).json())
+        } catch(e) {sendResponse({err:'blocklive id does not exist'})}
+      } else if(request.meta =='getChanges') {
+        sendResponse(await (await fetch(`${apiUrl}/changesSince/${request.blId}/${request.version}`,{headers:{authorization:currentBlToken,uname}})).json())
+      } else if(request.meta == 'getUsername') {
+        sendResponse(uname)
+      } else if(request.meta == 'getUsernamePlus') {
+        console.log('sending response')
+        console.log({uname,signedin,currentBlToken,apiUrl,verifyBypass})
+        sendResponse({uname,signedin,currentBlToken,apiUrl,verifyBypass});
+      } else if(request.meta == 'callback') {
+        tabCallbacks[sender.tab.id] = sendResponse
+      } else if(request.meta == 'projectSaved') {
+        // {meta:'projectSaved',blId,scratchId,version:blVersion}
+        fetch(`${apiUrl}/projectSaved/${request.scratchId}/${request.version}`,{method:'POST',headers:{authorization:currentBlToken}})
+      } else if(request.meta == 'projectSavedJSON') {
+        // {meta:'projectSaved',blId,scratchId,version:blVersion}
+        fetch(`${apiUrl}/projectSavedJSON/${request.blId}/${request.version}`,{method:'POST',body:request.json,headers:{'Content-Type': 'application/json',authorization:currentBlToken,uname}})
+      } else if(request.meta == 'myStuff') {
+        sendResponse(await(await fetch(`${apiUrl}/userProjectsScratch/${await makeSureUsernameExists()}`,{headers:{authorization:currentBlToken}})).json())
+      } else if(request.meta == 'create') {
+        // sendResponse(await(await fetch(`${apiUrl}/newProject/${request.scratchId}/${await refreshUsername()}?title=${encodeURIComponent(request.title)}`)).json())
+        sendResponse(await(await fetch(`${apiUrl}/newProject/${request.scratchId}/${await refreshUsername()}?title=${encodeURIComponent(request.title)}`,
+        {
+          method:'POST',
+          body:request.json,
+          headers:{'Content-Type': 'application/json',authorization:currentBlToken}
+        }).then(res=>res.json()).catch(e=>({err:e.toString()}))))
+      } else if(request.meta == 'shareWith') {
+        fetch(`${apiUrl}/share/${request.id}/${request.username}/${uname}?pk=${request.pk}`,{
+          method:'PUT',
+          headers:{authorization:currentBlToken}
+        })
+      } else if(request.meta == 'unshareWith') {
+        fetch(`${apiUrl}/unshare/${request.id}/${request.user}`,{
+          method:'PUT',
+          headers:{authorization:currentBlToken,uname}
+        })
+      } else if(request.meta == 'getShared') {
+        sendResponse(await(await fetch(`${apiUrl}/share/${request.id}`,{headers:{authorization:currentBlToken,uname}})).json())
+      } else if (request.meta == 'getTitle') {
+        sendResponse((await(await fetch(`${apiUrl}/projectTitle/${request.blId}`,{headers:{authorization:currentBlToken,uname}})).json()).title)
+      } else if(request.meta == 'leaveScratchId') {
+        fetch(`${apiUrl}/leaveScratchId/${request.scratchId}/${await refreshUsername()}`,{
+          method:'PUT',
+          headers:{authorization:currentBlToken}
+        })
+      } else if(request.meta == 'leaveBlId') {
+        fetch(`${apiUrl}/leaveBlId/${request.blId}/${await refreshUsername()}`,{
+          method:'PUT',
+          headers:{authorization:currentBlToken}
+        })
+      } else if(request.meta == 'getActive') {
+        sendResponse(await (await fetch(`${apiUrl}/active/${request.id}`,{headers:{authorization:currentBlToken,uname}})).json())
+      } else if(request.meta=='getPingUrl') {
+        sendResponse(await chrome.runtime.getURL("sounds/ping.mp3"))
+      } else if(request.meta=='isPingEnabled') {
+        sendResponse((await chrome.storage.local.get(['ping'])).ping )
+      }
+    })();
+    return true;
   });
 
   

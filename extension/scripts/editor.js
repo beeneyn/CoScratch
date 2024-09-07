@@ -2625,9 +2625,12 @@ function refreshShareModal() {
     })})
 }
 
-function makeBlockliveButton() {
+function makeBlockliveButton(sharebutton) {
+
+    
+
     let button = document.createElement('blocklive-init')
-    button.className = 'button_outlined-button_1bS__ menu-bar_menu-bar-button_3IDN0'
+    button.className = Array.from(sharebutton.classList).filter(e=>e.includes('button_outlined-button')||e.includes('menu-bar_menu-bar-button')).join(' ')
     button.style.marginRight = '20px'
     button.style.paddingLeft = '7px'
     button.style.paddingRight = '7px'
@@ -2648,14 +2651,16 @@ function makeBlockliveButton() {
     button.appendChild(text)
     return button
 }
-function makeRevertButton() {
+function makeRevertButton(communityButton) {
     let button = document.createElement('blocklive-init')
     button.id='blRevert'
-    button.className = 'button_outlined-button_1bS__ menu-bar_menu-bar-button_3IDN0 community-button_community-button_2Lo_g'
+    button.className = Array.from(communityButton.classList).filter(e=>['button_outlined-button','menu-bar_menu-bar-button','community-button_community-button'].find(n=>e.includes(n))).join(' ')
+    
+    // ;'button_outlined-button_1bS__ menu-bar_menu-bar-button_3IDN0 community-button_community-button_2Lo_g'
     
     
     button.style.marginRight = '7px'
-    button.style.marginLeft = '-10px'
+    button.style.marginLeft = '0px'
     button.style.paddingLeft = '7px'
     button.style.paddingRight = '7px'
     button.style.gap = '7px'
@@ -2803,8 +2808,8 @@ function doIOwnThis() {
     return store.getState().session.session.user.id == store.getState().preview.projectInfo.author.id;
 }
 function addButtonInjectors() {
-listenForObj('#app > div > div.gui_menu-bar-position_3U1T0.menu-bar_menu-bar_JcuHF.box_box_2jjDp > div.menu-bar_main-menu_3wjWH > div:nth-child(4) > span',
-    (bc)=>{
+listenForObj('span[class*="share-button_share-button"]',
+    (shareButton)=>{
         // bc.children[1].children[0].innerHTML = "Become Blajingus"
 
         let container = document.createElement('blockliveContainer')
@@ -2812,7 +2817,7 @@ listenForObj('#app > div > div.gui_menu-bar-position_3U1T0.menu-bar_menu-bar_Jcu
         container.style.flexDirection = 'column'
 
         if(!doIOwnThis()) {return} // if 
-        let button = makeBlockliveButton()
+        let button = makeBlockliveButton(shareButton)
         blockliveButton = button
         let dropdown = document.createElement('blockliveDropdown')
         dropdown.innerHTML = shareDropdown
@@ -2836,7 +2841,7 @@ listenForObj('#app > div > div.gui_menu-bar-position_3U1T0.menu-bar_menu-bar_Jcu
 
         container.appendChild(button)
         container.appendChild(dropdown)
-        bc.parentNode.parentNode.insertBefore(container,bc.parentNode)
+        shareButton.parentNode.insertBefore(container,shareButton)
 
         injectJSandCSS()
 
@@ -2848,7 +2853,7 @@ listenForObj('#app > div > div.gui_menu-bar-position_3U1T0.menu-bar_menu-bar_Jcu
 );
 
 //// Inject active users display
-listenForObj("#app > div > div.gui_menu-bar-position_3U1T0.menu-bar_menu-bar_JcuHF.box_box_2jjDp > div.menu-bar_account-info-group_MeJZP",(accountInfo)=>{
+listenForObj('[class*="menu-bar_account-info-group"]',(accountInfo)=>{
    
     let topBar = accountInfo.parentElement;
 
@@ -2882,8 +2887,7 @@ listenForObj("#app > div > div.gui_menu-bar-position_3U1T0.menu-bar_menu-bar_Jcu
 
 
 function addRevertButton() {
-    let mystuff = document.querySelector("div.menu-bar_account-info-group_MeJZP > a")
-    let  seeProjectPage = document.querySelector("span.community-button_community-button_2Lo_g");
+    let seeProjectPage = Array.from(document.querySelectorAll('span[class*="community-button_community-button"]')).find(e=>e.innerText?.includes('Page'));
 
     if(!blId) {return}
 
@@ -2892,7 +2896,7 @@ function addRevertButton() {
     // container.style.flexDirection = 'column'
 
     // if(!doIOwnThis()) {return} // if 
-    let button = makeRevertButton()
+    let button = makeRevertButton(seeProjectPage)
     // let dropdown = document.createElement('blockliveDropdown')
     // dropdown.innerHTML = shareDropdown
     // dropdown.style.position = 'absolute'
@@ -2915,10 +2919,11 @@ function addRevertButton() {
 
     // container.appendChild(button)
     // mystuff.after(button)
+    window.seeProjectPage = seeProjectPage
     seeProjectPage.before(button)
 
 // delete tutorials text
-   document.querySelector("span.menu-bar_tutorials-label_2tFBo").remove()
+   Array.from(document.querySelectorAll("span")).find(e=>e.className.includes('menu-bar_tutorials-label')).remove()
 
 }
 

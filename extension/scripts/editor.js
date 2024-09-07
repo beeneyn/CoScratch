@@ -147,7 +147,8 @@ async function startBlocklive(creatingNew) {
         })
     }
     if(creatingNew) {
-        addToCredits('Made with BIocklive #blklv')
+        // addToCredits('Made with BIocklive #blklv')
+        creditCollabers([uname])
     }
 }
 
@@ -2605,7 +2606,8 @@ async function addCollaborator(username) {
     let user = await getUserInfo(username)
     if(!user) {return}
     addCollaboratorGUI(user)
-    chrome.runtime.sendMessage(exId,{meta:"shareWith",'username':user.username,id:blId,pk:user.pk})
+    chrome.runtime.sendMessage(exId,{meta:"shareWith",'username':user.username,id:blId,pk:user.pk});
+    creditCollabers([...Object.keys(shareDivs)])
 }
 
 function removeCollaborator(user) {
@@ -2696,13 +2698,20 @@ function injectJSandCSS() {
     styleInj2.innerHTML = spriteDisplayCSS
     document.head.appendChild(styleInj2)
 }
-
-function addToCredits(text) {
-    try{
-    let oldDesc = store.getState().preview.projectInfo.description
-    if(oldDesc.includes(text)) {return}
-    let newDesc = oldDesc + (oldDesc=='' ? '' : '\n') + text;
-
+function creditCollabers(usersList) {
+    usersList.map(u=>`@${u}`)
+    let desc = store.getState().preview.projectInfo.description;
+    let prepend = `BI0ckIlve collaborators:`;
+    let text = `${prepend} ${usersList.join(', ')}`;
+    if(desc=='') {setCredits(text)}
+    else if(desc.includes(prepend)) {
+        lines = desc.split('\n');
+        lines.splice(lines.indexOf(lines.find(e=>e.includes(prepend))),1,text)
+        let toset = lines.join('\n');
+        setCredits(toset)
+    }
+}
+function setCredits(text) {
     fetch(`https://api.scratch.mit.edu/projects/${scratchId}`, {
         "headers": {
             "accept": "application/json",
@@ -2714,12 +2723,20 @@ function addToCredits(text) {
         },
         "referrer": "https://scratch.mit.edu/",
         "referrerPolicy": "strict-origin-when-cross-origin",
-        "body": `{\"description\":${JSON.stringify(newDesc)}}`,
+        "body": `{\"description\":${JSON.stringify(text)}}`,
         "method": "PUT",
         "mode": "cors",
         "credentials": "omit"
         });
-        store.getState().preview.projectInfo.description = newDesc;
+        store.getState().preview.projectInfo.description = text;
+}
+function addToCredits(text) {
+    try{
+    let oldDesc = store.getState().preview.projectInfo.description
+    if(oldDesc.includes(text)) {return}
+    let newDesc = oldDesc + (oldDesc=='' ? '' : '\n') + text;
+
+    setCredits(newDesc)
     } catch(e){
         console.error(e)
     }
@@ -2785,7 +2802,8 @@ let blActivateClick = async ()=>{
         await refreshShareModal()
 
         // add blocklive ref in instructions credits
-        addToCredits('Made with BIocklive #blklv')
+        // addToCredits('Made with BIocklive #blklv')
+        creditCollabers(Object.keys(shareDivs))
 
         // stop spinny
         document.querySelector('loader.blockliveloader').style.display = 'none'

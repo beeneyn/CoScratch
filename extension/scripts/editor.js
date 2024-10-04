@@ -3630,12 +3630,12 @@ function isChatOpen() {
 
 
 function getSpriteBoxElem(spriteName) {
-    let elem = Array.from(document.getElementsByClassName('sprite-selector_scroll-wrapper_3NNnc box_box_2jjDp')[0].querySelectorAll('div')).find(elem=>elem.innerHTML==spriteName)
+    let elem = Array.from(document.querySelectorAll('[class*=sprite-selector_scroll]')[0].querySelectorAll('div')).find(elem=>elem.innerHTML==spriteName)
     return elem?.parentElement?.parentElement
 }
 function addDude(spritename,dudename) {
     let spriteBox = getSpriteBoxElem(spritename);
-    if(spritename==BL_UTILS.stageName) {spriteBox = document.querySelector("#app > div > div.gui_body-wrapper_-N0sA.box_box_2jjDp > div > div.gui_stage-and-target-wrapper_69KBf.box_box_2jjDp > div.gui_target-wrapper_36Gbz.box_box_2jjDp > div > div.target-pane_stage-selector-wrapper_qekSW > div.stage-selector_stage-selector_3oWOr.box_box_2jjDp")}
+    if(spritename==BL_UTILS.stageName) {spriteBox = document.querySelector("[class*=stage-selector_stage-selector]")}
     if(!spriteBox) {return}
     let panel = spriteBox?.querySelector('.sdPanel');
     if(!panel) {

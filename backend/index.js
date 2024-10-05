@@ -466,8 +466,22 @@ app.put('/linkScratch/:scratchId/:blId/:owner',(req,res)=>{
 //           res.send({scratchId,scratchVersion:project.scratchVersion})
 //      }
 // })
-app.get('/userExists/:username',async (req,res)=>{
-     res.send(await userManager.userExists(req.params.username))
+app.get('/userExists/:username',(req,res)=>{
+     res.send(userManager.userExists(req.params.username) && !userManager.getUser(req.params.username).privateMe)
+     // res.send(userManager.userExists(req.params.username) && && userManager.getUser(req.params.username).verified && !userManager.getUser(req.params.username).privateMe) // implement this later on
+})
+app.put('/privateMe/:username/:private',(req,res)=>{
+     req.params.username = sanitize(req.params.username)
+     if(!authenticate(req.params.username,req.headers.authorization)) {res.send({noauth:true}); return;}
+     let user = userManager.getUser(req.params.username);
+     user.privateMe = req.params.private == 'true';
+     res.status(200).end();
+})
+app.get('/privateMe/:username',(req,res)=>{
+     req.params.username = sanitize(req.params.username)
+     if(!authenticate(req.params.username,req.headers.authorization)) {res.send({noauth:true}); return;}
+     let user = userManager.getUser(req.params.username);
+     res.send(user.privateMe);
 })
 app.get('/userRedirect/:scratchId/:username',(req,res)=>{
 

@@ -437,8 +437,10 @@ async function backgroundScript() {
           sendResponse(await chrome.runtime.getURL("sounds/ping.mp3"))
         } else if (request.meta == 'isPingEnabled') {
           sendResponse((await chrome.storage.local.get(['ping'])).ping)
-        } else if (msg.meta == 'userExists') {
-          sendResponse(await testUserExists(msg.username))
+        } else if (request.meta == 'userExists') {
+          sendResponse(await testUserExists(request.username))
+        }  else if (request.meta == 'hideBadges?') {
+          sendResponse({hideBadges:(await chrome.storage.local.get(['badgesDisabled'])).badgesDisabled})
         } 
       })();
       return true;

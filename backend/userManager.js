@@ -39,8 +39,8 @@ export default class UserManager {
         this.getUser(base)?.friends.splice(this.getUser(base)?.friends.indexOf(take), 1) // 🚨
     }
 
-    async userExists(username) {
-        await this.reloadUser(username);
+    userExists(username) {
+        this.reloadUser(username);
         return (username?.toLowerCase?.() in this.users);
     }
 
@@ -64,7 +64,7 @@ export default class UserManager {
     addUser(username) {
         this.reloadUser(username)
         if (!(username?.toLowerCase() in this.users)) {
-            this.users[username.toLowerCase()] = { username, friends: [], token: this.token(), sharedTo: {}, myProjects: [] } // 🚨
+            this.users[username.toLowerCase()] = { username, friends: [], token: this.token(), sharedTo: {}, myProjects: [], verified:false, privateMe: false, } // 🚨
         }
         return this.getUser(username)
     }

@@ -187,6 +187,8 @@ export function authenticate(username, token, bypassBypass) {
     let success = hasFreePass(username) || userManager.getUser(username).token == token
     if (success) {
         logAuth(username, true, 'authenticate')
+       // mark as active
+       if(!hasFreePass(username)) { userManager.getUser(username).verified = true; }
     } else {
         logAuth(username, false, 'authenticate', `failed to authenticate with token "${token}"`)
         // console.error(`🟪 User Authentication failed for user: ${username}, bltoken: ${token}`)

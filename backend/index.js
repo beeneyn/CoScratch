@@ -466,6 +466,9 @@ app.put('/linkScratch/:scratchId/:blId/:owner',(req,res)=>{
 //           res.send({scratchId,scratchVersion:project.scratchVersion})
 //      }
 // })
+app.get('/userExists/:username',async (req,res)=>{
+     res.send(await userManager.userExists(req.params.username))
+})
 app.get('/userRedirect/:scratchId/:username',(req,res)=>{
 
      let project = sessionManager.getScratchToBLProject(req.params.scratchId)

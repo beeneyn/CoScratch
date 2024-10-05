@@ -18,7 +18,8 @@
         },{
             "matches":["https://scratch.mit.edu/*"],
             "css":[],
-            "js":["scripts/verify.js"]
+            "js":["scripts/verify.js","injectors/all.js"],
+            "run_at": "document_end"
         }
     ],
     "background": {
@@ -32,7 +33,7 @@
     ],
     "optional_permissions":["notifications"],
     "web_accessible_resources" : [{
-        "resources":["/scripts/editor.js","/scripts/vm.js","/scripts/mystuff.js","/scripts/turbowarp_editor.js","img/blocklivefullres.png","sounds/ping.mp3"],
+        "resources":["/scripts/editor.js","/scripts/vm.js","/scripts/badge.js","/scripts/mystuff.js","/scripts/turbowarp_editor.js","img/blocklivefullres.png","sounds/ping.mp3","img/fancylogo.svg","img/fancylogo.png"],
         "matches":["<all_urls>"]
     }],
     "externally_connectable": {

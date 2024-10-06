@@ -15,7 +15,7 @@ chrome.runtime.onInstalled.addListener((details) => {
 
   } else if (details.reason === chrome.runtime.OnInstalledReason.UPDATE) {
 
-    // chrome.tabs.create({url:'https://sites.google.com/view/blocklive/new-blocklive-version'})
+    chrome.tabs.create({url:'https://sites.google.com/view/blocklive/new-blocklive-version'})
     // chrome.tabs.create({url:'https://buymeacoffee.com/ilhp10'})
   }
 })
@@ -439,8 +439,8 @@ async function backgroundScript() {
           sendResponse((await chrome.storage.local.get(['ping'])).ping)
         } else if (request.meta == 'userExists') {
           sendResponse(await testUserExists(request.username))
-        }  else if (request.meta == 'hideBadges?') {
-          sendResponse({hideBadges:(await chrome.storage.local.get(['badgesDisabled'])).badgesDisabled})
+        }  else if (request.meta == 'badges?') {
+          sendResponse({badges:(await chrome.storage.local.get(['badges'])).badges})
         } 
       })();
       return true;

@@ -1,17 +1,17 @@
 console.log("injecting badge.js");
 
 // alert(chrome.runtime.id)
-let scriptElem = document.createElement("script");
-scriptElem.dataset.exId = chrome.runtime.id
-scriptElem.dataset.logoUrl = chrome.runtime.getURL("/img/fancylogo.svg");
-scriptElem.classList.add("blocklive-ext")
-let srcThign = chrome.runtime.getURL("/scripts/badge.js");
+let scriptElemBadges = document.createElement("script");
+scriptElemBadges.dataset.exId = chrome.runtime.id
+scriptElemBadges.dataset.logoUrl = chrome.runtime.getURL("/img/fancylogo.svg");
+scriptElemBadges.classList.add("blocklive-ext-2")
+let srcThignBadges = chrome.runtime.getURL("/scripts/badge.js");
 
-scriptElem.src = srcThign;
+scriptElemBadges.src = srcThignBadges;
 // document.body.append(scriptElem)
 
 if (!!document.head) {
-  document.head.appendChild(scriptElem);
+  document.head.appendChild(scriptElemBadges);
 } else {
-  document.documentElement.appendChild(scriptElem);
+  document.documentElement.appendChild(scriptElemBadges);
 }

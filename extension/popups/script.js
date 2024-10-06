@@ -106,6 +106,19 @@ chrome.runtime.sendMessage({ meta: "getUsernamePlus" }, function (info) {
                 document.querySelector('#friends').innerHTML = `<span class="requestError" style="color:red;"><span>Request Error :( <br><br>${e.stack.replace(new RegExp(`chrome-extension://${chrome.runtime.id}/`, 'g'), '')}</span><span>`;
             })
     }
+
+
+    {
+        (async () => {
+            document.querySelector('#privme').checked = await (await fetch(`${apiUrl}/privateMe/${username}`, { headers: { authorization: token } })).json();
+        })()
+    }
+
+    document.querySelector('#privme').addEventListener('change', (event) => {
+        let on = event.currentTarget.checked;
+
+        fetch(`${apiUrl}/privateMe/${username}/${on}`, {method:'put', headers: { authorization: token },  })
+    });
 });
 
 function showNoAuthMessage() {
@@ -156,8 +169,7 @@ document.querySelector('#notifs').addEventListener('change', (event) => {
 /// request permissions
 (async () => {
     document.querySelector('#ping').checked = (await chrome.storage.local.get(['ping']))?.ping ?? false
-    document.querySelector('#badges').checked = !((await chrome.storage.local.get(['badgesDisabled']))?.badgesDisabled ?? false)
-    document.querySelector('#privme').checked = await fetch(`${apiUrl}/privateMe/${uname}`,{headers:{authorization:currentBlToken}})
+    document.querySelector('#badges').checked = !((await chrome.storage.local.get(['badges']))?.badges ?? false)
 })()
 document.querySelector('#ping').addEventListener('change', (event) => {
     let on = event.currentTarget.checked;
@@ -169,14 +181,10 @@ document.querySelector('#ping').addEventListener('change', (event) => {
 
 document.querySelector('#badges').addEventListener('change', (event) => {
     let on = event.currentTarget.checked;
-    chrome.storage.local.set({ badgesDisabled: !on })
+    chrome.storage.local.set({ badges: !on })
 
 });
-document.querySelector('#privme').addEventListener('change', (event) => {
-    let on = event.currentTarget.checked;
 
-    fetch(`${apiUrl}/privateMe/${uname}/${on}`,{headers:{authorization:currentBlToken}})
-});
 
 
 

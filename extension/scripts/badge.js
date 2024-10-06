@@ -1,4 +1,4 @@
-
+{
 
 // document.querySelectorAll('a[href*=/users/]').forEach(a=>{
 //     let image = document.createElement('img');
@@ -19,26 +19,26 @@ let selectors = [
     '.studio-project-username'
 ]
 
-const logoUrl = document.querySelector('.blocklive-ext').dataset.logoUrl;
-const exId = document.querySelector('.blocklive-ext').dataset.exId;
+const logoUrl2 = document.querySelector('.blocklive-ext-2').dataset.logoUrl;
+const exIdBadges = document.querySelector('.blocklive-ext-2').dataset.exId;
 
-async function displayBLUsers(element) {
+async function displayBLUsers2(element) {
     Array.from(element.querySelectorAll(selectors)).forEach(nameElem => {
         if (nameElem.seen) return;
         nameElem.seen = true;
         console.log(nameElem.innerText)
 
-        chrome.runtime.sendMessage(exId, { meta: "hideBadges?", username: nameElem.innerText }, function (response) {
-            if (!response.hideBadges) {
+        chrome.runtime.sendMessage(exIdBadges, { meta: "badges?", username: nameElem.innerText }, function (response) {
+            if (!response.badges) {
 
-                chrome.runtime.sendMessage(exId, { meta: "userExists", username: nameElem.innerText }, function (response) {
+                chrome.runtime.sendMessage(exIdBadges, { meta: "userExists", username: nameElem.innerText }, function (response) {
                     if (!response) return;
 
                     let textSize = window.getComputedStyle(nameElem, null).getPropertyValue('font-size');
                     textSize = parseFloat(textSize.replace('px', ''))
 
                     let img = document.createElement('img');
-                    img.src = logoUrl;
+                    img.src = logoUrl2;
                     let height = Math.max(16, textSize * 1.2);
                     img.style.height = `${height}px`;
                     img.style.marginTop = -height / 2 + 'px'
@@ -69,6 +69,7 @@ async function displayBLUsers(element) {
                     container.style.justifyContent = 'center'
                     container.style.alignSelf = 'flex-start'
                     container.style.maxWidth = '100%'
+                    container.style.marginRight = 'auto'
 
                     nameElem.style.textOverflow = 'unset'
 
@@ -85,7 +86,7 @@ async function displayBLUsers(element) {
         })
     })
 }
-displayBLUsers(document)
+displayBLUsers2(document)
 
 
 
@@ -96,10 +97,10 @@ displayBLUsers(document)
 /// mutation obersver
 
 // Select the node that will be observed for mutations
-const targetNode = document.body;
+const targetNode2 = document.documentElement;
 
 // Options for the observer (which mutations to observe)
-const config = { attributes: true, childList: true, subtree: true };
+const config2 = { attributes: true, childList: true, subtree: true };
 
 // Callback function to execute when mutations are observed
 // const callback = (mutationList, observer) => {
@@ -113,7 +114,9 @@ const config = { attributes: true, childList: true, subtree: true };
 // };
 
 // Create an observer instance linked to the callback function
-const observer = new MutationObserver((a, b,) => { a.forEach(e => displayBLUsers(e.target)) });
+// const observer = new MutationObserver((a, b,) => { a.forEach(e => displayBLUsers(document.body)) });
+const observer2 = new MutationObserver((a, b,) => { a.forEach(e => displayBLUsers2(e.target)) });
 
 // Start observing the target node for configured mutations
-observer.observe(targetNode, config);
+observer2.observe(targetNode2, config2);
+}

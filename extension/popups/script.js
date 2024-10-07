@@ -187,8 +187,6 @@ document.querySelector('#badges').addEventListener('change', (event) => {
 
 
 
-
-
 let logo = document.getElementById('logo')
 document.addEventListener('mousemove', (e) => {
     logo.style.transform = (e.pageX > 190 && e.pageY < 137) ? `rotate(360deg)` : `rotate(0deg)`

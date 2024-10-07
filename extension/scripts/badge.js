@@ -70,6 +70,8 @@ async function displayBLUsers2(element) {
                     container.style.alignSelf = 'flex-start'
                     container.style.maxWidth = '100%'
                     container.style.marginRight = 'auto'
+                    container.style.overflow = 'visible'
+                    container.parentElement.style.overflow = 'visible'
 
                     nameElem.style.textOverflow = 'unset'
 

@@ -16,6 +16,12 @@ function sleep(millis) {
 if(!fs.existsSync('storage')) {
     fs.mkdirSync('storage')
 }
+if(!fs.existsSync('storage/sessions/scratchprojects')) {
+     fs.mkdirSync('storage/sessions/scratchprojects',{recursive:true})
+     fs.mkdirSync('storage/sessions/blocklive',{recursive:true})
+}
+ 
+
 
 export function saveMapToFolder(obj, dir) {
     // if obj is null, return

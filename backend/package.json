@@ -9,9 +9,6 @@
     "stop": "pm2 stop LiveScratch",
     "delete": "pm2 delete LiveScratch"
   },
-  "keywords": [],
-  "author": "Waakul",
-  "license": "GPL-3.0-only",
   "dependencies": {
     "@coffeeandfun/google-profanity-words": "^2.1.0",
     "@types/express": "^5.0.0",

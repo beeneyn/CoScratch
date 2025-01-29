@@ -1,7 +1,8 @@
 {
-    "name": "Blocklive: Scratch Realtime Collaboration",
-    "description": "Multiple Scratchers Work together in Real Time on a Single Project",
-    "version": "0.1.16.1",
+    "name": "Livescratch: Live Scratch Collabs!",
+    "description": "Multiple Scratchers Can Work Together On The Same Project!",
+    "version": "0.1.1",
+    "version_name": "0.2.0-pre",
     "icons": {
        "128": "icon128.png" 
     },
@@ -17,7 +18,7 @@
             "js":["injectors/mystuff.js"]
         },{
             "matches":["https://scratch.mit.edu/*"],
-            "css":["scripts/badge.css"],
+            "css":["scripts/badge.css", "UI_modal/style.css"],
             "js":["scripts/verify.js","injectors/all.js"]
         }
     ],
@@ -32,7 +33,7 @@
     ],
     "optional_permissions":["notifications"],
     "web_accessible_resources" : [{
-        "resources":["/scripts/editor.js","/scripts/vm.js","/scripts/badge.js","/scripts/mystuff.js","/scripts/turbowarp_editor.js","img/blocklivefullres.png","sounds/ping.mp3","img/fancylogo.svg","img/fancylogo.png"],
+        "resources":["/scripts/editor.js","/scripts/vm.js","/scripts/badge.js","/UI_modal/index.js","/scripts/mystuff.js","/scripts/turbowarp_editor.js","/img/LogoLiveScratch.svg","/sounds/ping.mp3"],
         "matches":["<all_urls>"]
     }],
     "externally_connectable": {

@@ -23,15 +23,17 @@ const getStorageValue = (key) => {
     });
 };
 
+
+const defaultApiUrl = 'https://blserver.waakul.com'
 const getApiUrl = async () => {
     const customServer = await getStorageValue('custom-server');
 
     if (customServer) {
         const serverUrl = await getStorageValue('server-url');
-        return serverUrl || 'https://livescratchapi.waakul.com';
+        return serverUrl || defaultApiUrl;
     }
 
-    return 'https://livescratchapi.waakul.com';
+    return defaultApiUrl;
 };
 
 let apiUrl;

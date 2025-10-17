@@ -33,7 +33,7 @@ header {
   gap: 9px;
   align-self: stretch;
   z-index: 10;
-  background: linear-gradient(100deg, #4C97FF -2.26%, #59C059 135.83%);
+  background: linear-gradient(100deg, #4C97FF -2.26%, #FF4C59 135.83%);
   box-shadow: 0px 0px 102.3px 0px rgba(0, 0, 0, 0.08);
 }
 
@@ -493,8 +493,8 @@ body.dark-mode *, body.dark-mode{
   --Sub: rgba(255, 255, 255, 0.337);
   --Sub-Semi: rgba(255, 255, 255, 0.1);
   --button-large-stroke: rgba(255, 255, 255, 0.31);
-  --button-large: linear-gradient(115deg, #4794F6 -12.84%, #55B488 122.07%);
-  --switch-enabled: linear-gradient(116deg, #56B48B 0%, #55AAB5 78.39%);
+  --button-large: linear-gradient(115deg, #4794F6 -12.84%, #F64755 122.07%);
+  --switch-enabled: linear-gradient(116deg, #4794F6 0%, #F64755 78.39%);
 }
 
 body.dark-mode #credits .credit, #links a {
@@ -510,8 +510,8 @@ body.light-mode *, body.light-mode{
   --Sub: rgba(255, 255, 255, 0.611);
   --Sub-Semi: rgba(255, 255, 255, 0.4);
   --button-large-stroke: rgba(255, 255, 255, 0.58);
-  --button-large: linear-gradient(115deg, #4A9AFF -12.84%, #57B78A 122.07%);
-  --switch-enabled: linear-gradient(116deg, #56B48B 0%, #55AAB5 78.39%);
+  --button-large: linear-gradient(115deg, #4A9AFF -12.84%, #FF5757 122.07%);
+  --switch-enabled: linear-gradient(116deg, #4A9AFF 0%, #FF5757 78.39%);
 }
 
 body.light-mode #link-uptime img {

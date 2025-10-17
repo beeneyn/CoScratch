@@ -197,7 +197,7 @@ chrome.runtime.sendMessage({ meta: 'getUsernamePlus' }, function (info) {
         if (statusCode===200) {
             addFriendGUI(name);
         } else {
-            alert('The user you tried to friend doesnt have livescratch!');
+            alert('The user you tried to friend doesnt have CoScratch!');
         }
     }
 

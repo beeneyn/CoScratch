@@ -93,7 +93,7 @@ function getbox(blId, title, scratchId, lastModified, lastModBy, projectExists, 
       </div>
       <div class="media-info">
         <span class="media-info-item title"><a style="color:rgb(88, 193, 152)" href="/projects/${scratchId}/">${title}</a></span>
-      	<span class="media-info-item date shortDateFormat">
+        <span class="media-info-item date shortDateFormat">
         
           Last modified: ${timeSince(new Date(lastModified))} ago by ${lastModBy}
           
@@ -101,7 +101,7 @@ function getbox(blId, title, scratchId, lastModified, lastModBy, projectExists, 
       <div class="seeInsideContainer">
 
       <a href="/projects/${scratchId}/#editor" data-control="edit" class="media-control-edit small button grey">
-	     
+             
       <span>See inside</span>
       <div class="activeContainer" id=${gunkId}></div>
 
@@ -111,7 +111,7 @@ function getbox(blId, title, scratchId, lastModified, lastModBy, projectExists, 
 
       </div>
       <div class="media-action">
-	      <div><a class="media-trash" style="color:rgb(88, 193, 152)" onclick="leaveId(${scratchId},this.parentElement.parentElement.parentElement.parentElement);sendLeave(${scratchId},${blId})">${projectExists ? 'Unlink' : 'Leave'}</a></div>
+              <div><a class="media-trash" style="color:rgb(88, 193, 152)" onclick="leaveId(${scratchId},this.parentElement.parentElement.parentElement.parentElement);sendLeave(${scratchId},${blId})">${projectExists ? 'Unlink' : 'Leave'}</a></div>
       </div>
     </div>`;
 }
@@ -370,7 +370,7 @@ chrome.runtime.sendMessage(exId, { meta: 'getUsernamePlus' }, async (userData) =
         addStartVerificationCallback(() => {
             document.querySelector('#verifying')?.remove();
             document.querySelector('#unverified')?.remove();
-            document.querySelector('.box-head').insertAdjacentHTML('afterend', '<div class="blBanner" id="verifying" style="background:#ea47ff; color:white;"><img height=15 src="https://upload.wikimedia.org/wikipedia/commons/a/ad/YouTube_loading_symbol_3_%28transparent%29.gif"/> Livescratch is verifying your account ...<div>');
+            document.querySelector('.box-head').insertAdjacentHTML('afterend', '<div class="blBanner" id="verifying" style="background:#ea47ff; color:white;"><img height=15 src="https://upload.wikimedia.org/wikipedia/commons/a/ad/YouTube_loading_symbol_3_%28transparent%29.gif"/> CoScratch is verifying your account ...<div>');
         });
         addEndVerificationCallback(async (success, message) => {
             document.querySelector('#verifying')?.remove();
@@ -385,9 +385,9 @@ chrome.runtime.sendMessage(exId, { meta: 'getUsernamePlus' }, async (userData) =
             } else {
                 let error = await chrome.runtime.sendMessage(exId,{meta:'getVerifyError'});
                 if(error=='no cloud') {
-                    document.querySelector('.box-head').insertAdjacentHTML('afterend', '<div class="blBanner" id="unverified" style="background:red; color:white;"><span id="bigx" style="display:none; padding:3px; border-radius:50%; background:lightpink; color:maroon; cursor:pointer;" onclick="document.querySelector(\'#unverified\').remove()">&nbspx&nbsp</span>⚠️ Livescratch could not verify your account because the cloud data \'set\' action failed. Scratch\'s cloud data servers might be down, causing this issue. Click \'hide verify\' below to silence this message.');
+                    document.querySelector('.box-head').insertAdjacentHTML('afterend', '<div class="blBanner" id="unverified" style="background:red; color:white;"><span id="bigx" style="display:none; padding:3px; border-radius:50%; background:lightpink; color:maroon; cursor:pointer;" onclick="document.querySelector(\'#unverified\').remove()">&nbspx&nbsp</span>⚠️ CoScratch could not verify your account because the cloud data \'set\' action failed. Scratch\'s cloud data servers might be down, causing this issue. Click \'hide verify\' below to silence this message.');
                 } else {
-                    document.querySelector('.box-head').insertAdjacentHTML('afterend', '<div class="blBanner" id="unverified" style="background:red; color:white;"><span id="bigx" style="display:none; padding:3px; border-radius:50%; background:lightpink; color:maroon; cursor:pointer;" onclick="document.querySelector(\'#unverified\').remove()">&nbspx&nbsp</span>⚠️ Livescratch could not verify your account. Reload the tab in a few seconds. If this issue continues, contact @Waakul<span style="text-decoration:underline; cursor:pointer; color:blue;" onclick="chrome.runtime.sendMessage(exId,{meta:\'getVerifyError\'},err=>prompt(\'This error occured during client verification. Comment it on @Waakul\',err))">See Error Msg</span>');
+                    document.querySelector('.box-head').insertAdjacentHTML('afterend', '<div class="blBanner" id="unverified" style="background:red; color:white;"><span id="bigx" style="display:none; padding:3px; border-radius:50%; background:lightpink; color:maroon; cursor:pointer;" onclick="document.querySelector(\'#unverified\').remove()">&nbspx&nbsp</span>⚠️ CoScratch could not verify your account. Reload the tab in a few seconds. If this issue continues, contact @Waakul<span style="text-decoration:underline; cursor:pointer; color:blue;" onclick="chrome.runtime.sendMessage(exId,{meta:\'getVerifyError\'},err=>prompt(\'This error occured during client verification. Comment it on @Waakul\',err))">See Error Msg</span>');
                 }
         
             }
@@ -405,14 +405,14 @@ chrome.runtime.sendMessage(exId, { meta: 'getUsernamePlus' }, async (userData) =
                 chrome.runtime.sendMessage(exId, {meta: 'getAPI-URL'}, (response) => {
                     apiURL = response.apiURL;
                 });
-                document.querySelector('.box-head').insertAdjacentHTML('afterend', `<div class="blBanner" id="unverified" style="background:red; color:white;">⚠️ Cant connect to livescratch servers at ${apiURL} <a href="https://status.uptime-monitor.io/6499c89d4bfb79bb5f20ac4d" target="_blank">Check Uptime</a> or <a onclick="(()=>{chrome.runtime.sendMessage(exId,{meta:'dontShowVerifyError',val:false}); addHideLivescratchButton(false);})()">Dont show this message again</a><div>`);
+                document.querySelector('.box-head').insertAdjacentHTML('afterend', `<div class="blBanner" id="unverified" style="background:red; color:white;">⚠️ Cant connect to CoScratch servers at ${apiURL} <a href="https://status.uptime-monitor.io/6499c89d4bfb79bb5f20ac4d" target="_blank">Check Uptime</a> or <a onclick="(()=>{chrome.runtime.sendMessage(exId,{meta:'dontShowVerifyError',val:false}); addHideLivescratchButton(false);})()">Dont show this message again</a><div>`);
             }
             else if (verifying) {
                 document.querySelector('#verifying')?.remove();
-                document.querySelector('.box-head').insertAdjacentHTML('afterend', '<div class="blBanner" id="verifying" style="background:#ea47ff; color:white;"><img height=15 src="https://upload.wikimedia.org/wikipedia/commons/a/ad/YouTube_loading_symbol_3_%28transparent%29.gif"/> Livescratch is verifying your account ...<div>');
+                document.querySelector('.box-head').insertAdjacentHTML('afterend', '<div class="blBanner" id="verifying" style="background:#ea47ff; color:white;"><img height=15 src="https://upload.wikimedia.org/wikipedia/commons/a/ad/YouTube_loading_symbol_3_%28transparent%29.gif"/> CoScratch is verifying your account ...<div>');
             } else {
                 if (newVerified) { return; }
-                document.querySelector('.box-head').insertAdjacentHTML('afterend', '<div class="blBanner" id="unverified" style="background:red; color:white;">⚠️ Livescratch could not verify your account. Reload the tab in a few seconds. If this issue continues, contact @Waakul<div>');
+                document.querySelector('.box-head').insertAdjacentHTML('afterend', '<div class="blBanner" id="unverified" style="background:red; color:white;">⚠️ CoScratch could not verify your account. Reload the tab in a few seconds. If this issue continues, contact @Waakul<div>');
             }
         });
 

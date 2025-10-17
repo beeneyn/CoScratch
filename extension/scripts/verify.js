@@ -9,7 +9,7 @@ askVerify();
 
 async function setCloudVar(value, AUTH_PROJECTID) { 
     const user = await chrome.runtime.sendMessage({ meta: 'getUsername' });
-    if(user=='*') {return {err:'livescratch thinks you are logged out'};}
+    if(user=='*') {return {err:'CoScratch thinks you are logged out'};}
     const connection = new WebSocket('wss://clouddata.scratch.mit.edu');
  
     let setAndClose = new Promise((res) => {

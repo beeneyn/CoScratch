@@ -24,7 +24,7 @@ const getStorageValue = (key) => {
 };
 
 
-const defaultApiUrl = 'https://blserver.waakul.com'
+const defaultApiUrl = 'https://coscratchapi.replit.app'
 const getApiUrl = async () => {
     const customServer = await getStorageValue('custom-server');
 
@@ -45,7 +45,7 @@ const loadUrl = () => {
             resolve(); // Ensure this is final
         } catch (error) {
             console.error('Failed to get the API URL:', error);
-            apiUrl = 'https://livescratchapi.waakul.com';
+            apiUrl = 'https://coscratchapi.replit.app';
             reject(error); // Only reject on actual failure
         }
     });
@@ -81,10 +81,9 @@ chrome.runtime.onInstalled.addListener(async (details) => {
     }
 
     if (details.reason === chrome.runtime.OnInstalledReason.INSTALL) {
-        chrome.tabs.create({ url: 'https://ko-fi.com/waakul' });
-        chrome.tabs.create({ url: 'https://livescratch.waakul.com' });
+        chrome.tabs.create({ url: 'https://coscratchapi.replit.app' });
     } else if (details.reason === chrome.runtime.OnInstalledReason.UPDATE) {
-        chrome.tabs.create({ url: 'https://livescratch.waakul.com' /* 'https://livescratch.waakul.com/new-release' */ });
+        chrome.tabs.create({ url: 'https://coscratchapi.replit.app' });
     }
 });
 

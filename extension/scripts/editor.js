@@ -3729,13 +3729,11 @@ async function addMessage(msg, notif) {
         ':money_mouth:', // 🤑
         ':deaf_man:', // 🧏‍♂️
         ':shushing_face:', // 🤫
-        ':waakul:', // https://cdn2.scratch.mit.edu/get_image/user/128606483_60x60.png Custom Emoji
-        ':livescratch:', // https://livescratch.waakul.com/assets/logo.png Custom Emoji
+        ':coscratch:', // CoScratch Custom Emoji
     ];
 
     const customEmojis = {
-        ':waakul:': 'https://cdn2.scratch.mit.edu/get_image/user/128606483_60x60.png',
-        ':livescratch:': 'https://livescratch.waakul.com/assets/logo.png',
+        ':coscratch:': chrome.runtime.getURL('/img/LogoCoScratch2!.svg'),
     };
 
     let content = msgElem.innerHTML;

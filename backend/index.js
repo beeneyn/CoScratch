@@ -310,7 +310,7 @@ app.get('/active/:lsId',(req,res)=>{
 });
 
 app.get('/',(req,res)=>{
-    res.send('CoScratch API');
+    res.sendFile('static/index.html', { root: '.' });
 });
 
 app.post('/friends/:user/:friend',(req,res)=>{

@@ -1,4 +1,4 @@
-<svg width="200" height="60" viewBox="0 0 200 60" xmlns="http://www.w3.org/2000/svg">
+<svg width="60" height="60" viewBox="0 0 200 60" xmlns="http://www.w3.org/2000/svg">
   <defs>
     <linearGradient id="gradient1" x1="0%" y1="0%" x2="100%" y2="0%">
       <stop offset="0%" style="stop-color:#4C97FF;stop-opacity:1" />
@@ -16,9 +16,4 @@
     <path d="M 15 10 L 25 10 L 25 5 L 30 5 L 30 10 L 40 10 L 40 20 L 35 20 L 35 25 L 40 25 L 40 35 L 30 35 L 30 30 L 25 30 L 25 35 L 15 35 L 15 25 L 20 25 L 20 20 L 15 20 L 15 10 Z" 
           fill="#FF4C59" opacity="0.9"/>
   </g>
-  
-  <!-- Text: CoScratch -->
-  <text x="55" y="35" font-family="'Arial Rounded MT Bold', 'Montserrat', Arial, sans-serif" font-size="28" font-weight="bold" fill="url(#gradient1)">
-    CoScratch
-  </text>
 </svg>

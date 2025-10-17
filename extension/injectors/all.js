@@ -4,7 +4,7 @@ console.log("injecting badge.js");
 let scriptElemBadges = document.createElement("script");
 scriptElemBadges.dataset.exId = chrome.runtime.id;
 scriptElemBadges.dataset.logoUrl = chrome.runtime.getURL(
-    "/img/LogoCoScratch.svg",
+    "/img/LogoCoScratch2!.svg",
 );
 scriptElemBadges.classList.add("livescratch-ext-2");
 let srcThignBadges = chrome.runtime.getURL("/scripts/badge.js");
@@ -21,7 +21,7 @@ if (!!document.head) {
 let scriptElemModal = document.createElement("script");
 scriptElemModal.dataset.exId = chrome.runtime.id;
 scriptElemModal.dataset.logoUrl = chrome.runtime.getURL(
-    "/img/LogoCoScratch.svg",
+    "/img/LogoCoScratch2!.svg",
 );
 scriptElemModal.classList.add("livescratch-ext-2");
 let srcThignModal = chrome.runtime.getURL("/UI_modal/index.js");

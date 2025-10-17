@@ -42,5 +42,5 @@ localPort = 44525
 externalPort = 3001
 
 [deployment]
-run = ["sh", "-c", "pm2 start ./ecosystem.config.cjs"]
-deploymentTarget = "gce"
+run = ["node", "backend/index.js"]
+deploymentTarget = "vm"

@@ -32,7 +32,7 @@ import { countRecentShared, recordPopup } from './utils/recentUsers.js';
 import {setPaths, authenticate, fullAuthenticate, freePassesPath, freePasses} from './utils/scratch-auth.js';
 import initSockets from './WebSockets.js';
 
-const restartMessage = 'The Livescratch server is restarting. You will lose connection for a few seconds.';
+const restartMessage = 'The CoScratch server is restarting. You will lose connection for a few seconds.';
 
 function sleep(millis) {
     return new Promise(res=>setTimeout(res,millis));
@@ -310,7 +310,7 @@ app.get('/active/:lsId',(req,res)=>{
 });
 
 app.get('/',(req,res)=>{
-    res.send('LiveScratch API');
+    res.send('CoScratch API');
 });
 
 app.post('/friends/:user/:friend',(req,res)=>{

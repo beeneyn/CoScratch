@@ -2582,7 +2582,7 @@ async function getUserInfo(username) {
 async function getWithPic(user, username = null) {
     if (username !== null && username === 'livescratch') {
         const url = await new Promise((resolve, reject) => {
-            chrome.runtime.sendMessage(exId, { meta: 'getUrl', for: '/img/LogoLiveScratch.svg' }, (url) => {
+            chrome.runtime.sendMessage(exId, { meta: 'getUrl', for: '/img/LogoCoScratch.svg' }, (url) => {
                 if (chrome.runtime.lastError) {
                     reject(chrome.runtime.lastError);
                 } else {
